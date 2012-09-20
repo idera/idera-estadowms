@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<html>
+    <head>
+		 <meta charset="utf-8">
+        <title>Estado de los servidores WMS de IDERA</title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="http://dev.openlayers.org/sandbox/august/trunk/theme/default/style.css" type="text/css"/>
+        <script src="OpenLayers.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+        <script src="servidores.js"></script>        
+        <script src="URI.min.js"></script>        
+        <script src="estadowms.js"></script>        
+		<style type="text/css">
+		td.ok {
+			background-color:#DFF0D8 !important;
+			color:#468847;
+		}
+
+		td.warning {
+			background-color:#FCF8E3 !important;
+			color:#C09853;
+		}
+
+		td.fail {
+			background-color:#F2DEDE !important;
+			color:#B94A48;
+		}
+
+		.table td, .table th {
+			line-height:1em;
+		}
+
+		#rows td {
+			max-width:20px;
+			word-wrap:break-word;
+		}
+
+		.label {
+			font-size:0.8em;
+		}
+/* Estilos para la sidenav */
+		.bs-docs-sidenav {
+		  width: 228px;
+		  margin: 30px 0 0;
+		  padding: 0;
+		  background-color: #fff;
+		  -webkit-border-radius: 6px;
+			 -moz-border-radius: 6px;
+				  border-radius: 6px;
+		  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+			 -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+				  box-shadow: 0 1px 4px rgba(0,0,0,.065);
+		}
+		.bs-docs-sidenav > li > a {
+		  display: block;
+		  *width: 190px;
+		  margin: 0 0 -1px;
+		  padding: 1px 14px;
+		  border: 1px solid #e5e5e5;
+		}
+		.bs-docs-sidenav > li:first-child > a {
+		  -webkit-border-radius: 6px 6px 0 0;
+			 -moz-border-radius: 6px 6px 0 0;
+				  border-radius: 6px 6px 0 0;
+		}
+		.bs-docs-sidenav > li:last-child > a {
+		  -webkit-border-radius: 0 0 6px 6px;
+			 -moz-border-radius: 0 0 6px 6px;
+				  border-radius: 0 0 6px 6px;
+		}
+		.bs-docs-sidenav > .active > a {
+		  position: relative;
+		  z-index: 2;
+		  padding: 2px 15px;
+		  border: 0;
+		  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+		  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+			 -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+				  box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+		}
+		/* Chevrons */
+		.bs-docs-sidenav .icon-chevron-right {
+		  float: right;
+		  margin-top: 2px;
+		  margin-right: -6px;
+		  opacity: .25;
+		}
+		.bs-docs-sidenav > li > a:hover {
+		  background-color: #f5f5f5;
+		}
+		.bs-docs-sidenav a:hover .icon-chevron-right {
+		  opacity: .5;
+		}
+		.bs-docs-sidenav .active .icon-chevron-right,
+		.bs-docs-sidenav .active a:hover .icon-chevron-right {
+		  background-image: url(../img/glyphicons-halflings-white.png);
+		  opacity: 1;
+		}
+		.bs-docs-sidenav.affix {
+		  top: 40px;
+		}
+		.bs-docs-sidenav.affix-bottom {
+		  position: absolute;
+		  top: auto;
+		  bottom: 270px;
+		}
+
+		/* Jumbotrons
+		-------------------------------------------------- */
+
+		/* Base class
+		------------------------- */
+		.jumbotron {
+		  position: relative;
+		  padding: 40px 0;
+		  color: #fff;
+		  text-align: center;
+		  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+		  background: #020031; /* Old browsers */
+		  background: -moz-linear-gradient(45deg,  #020031 0%, #6d3353 100%); /* FF3.6+ */
+		  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6d3353)); /* Chrome,Safari4+ */
+		  background: -webkit-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* Chrome10+,Safari5.1+ */
+		  background: -o-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* Opera 11.10+ */
+		  background: -ms-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* IE10+ */
+		  background: linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* W3C */
+		  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020031', endColorstr='#6d3353',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+		  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+			 -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+				  box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+		}
+		.jumbotron h1 {
+		  font-size: 80px;
+		  font-weight: bold;
+		  letter-spacing: -1px;
+		  line-height: 1;
+		}
+		.jumbotron p {
+		  font-size: 24px;
+		  font-weight: 300;
+		  line-height: 30px;
+		  margin-bottom: 30px;
+		}
+
+		/* Link styles (used on .masthead-links as well) */
+		.jumbotron a {
+		  color: #fff;
+		  color: rgba(255,255,255,.5);
+		  -webkit-transition: all .2s ease-in-out;
+			 -moz-transition: all .2s ease-in-out;
+				  transition: all .2s ease-in-out;
+		}
+		.jumbotron a:hover {
+		  color: #fff;
+		  text-shadow: 0 0 10px rgba(255,255,255,.25);
+		}
+
+		/* Download button */
+		.masthead .btn {
+		  padding: 14px 24px;
+		  font-size: 24px;
+		  font-weight: 200;
+		  color: #fff; /* redeclare to override the `.jumbotron a` */
+		  border: 0;
+		  -webkit-border-radius: 6px;
+			 -moz-border-radius: 6px;
+				  border-radius: 6px;
+		  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+			 -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+				  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+		  -webkit-transition: none;
+			 -moz-transition: none;
+				  transition: none;
+		}
+		.masthead .btn:hover {
+		  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+			 -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+				  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+		}
+		.masthead .btn:active {
+		  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+			 -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+				  box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+		}
+
+
+		/* Pattern overlay
+		------------------------- */
+		.jumbotron .container {
+		  position: relative;
+		  z-index: 2;
+		}
+		.jumbotron:after {
+		  content: '';
+		  display: block;
+		  position: absolute;
+		  top: 0;
+		  right: 0;
+		  bottom: 0;
+		  left: 0;
+		  background: url(../img/bs-docs-masthead-pattern.png) repeat center center;
+		  opacity: .4;
+		}
+
+		</style>
+    </head>
+    <body data-spy="scroll" data-target=".bs-docs-sidebar" onload="init();">
+		<header class="jumbotron subhead" id="overview">
+		  <div class="container">
+			<h1>Servicios WMS IDERA</h1>
+			<p class="lead">En este panel de control se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
+		  </div>
+		</header>
+        <div class="container">
+			<div class="row">
+
+				<div class="span3 bs-docs-sidebar">
+					<ul id="menu" class="nav nav-list bs-docs-sidenav">
+					  <li><a href="#estado"><i class="icon-chevron-right"></i> Estado general</a></li>
+					</ul>
+				</div>
+				<div class="span9">
+					<section id="estado">
+						<div class="page-header">
+							<h3>Estado general</h3>
+						</div>
+						<table style="font-size:0.8em" class="table  table-bordered table-condensed">
+							<thead>
+								<tr style="background-color:black;color:white">
+									<th>Organismo</th>
+									<th>Campo WMS Title</th>
+									<th>Campo WMS Abstract</th>
+									<th>Soporte de Sistemas de Referencia Espacial</th>
+									<th>Soporte a formatos de respuesta GetFeatureInfo</th>
+									<th>Soporta formatos de Imagen</th>
+									<th>Puerto 80 ?</th>
+								</tr>
+							</thead>
+							<tbody id="servidores">
+							</tbody>
+						</table>
+					</section>
+					<section id="capas">
+						<div class="page-header">
+							<h3>Capas publicadas en los servidores WMS de IDERA</h3>
+						</div>
+
+						<table style="font-size:0.8em" class="table table-bordered table-condensed">
+							<thead>
+								<tr style="background-color:black;color:white">
+									<th>Campo WMS Title</th>
+									<th>Campo WMS Name</th>
+									<th>Campo WMS Abstract</th>
+									<th>Palabras clave WMS</th>
+									<th>Link a metadatos</th>
+									<th>Soporta GetFeatureInfo text/html</th>
+									<th>Soporta GetFeatureInfo GML</th>
+									<th>Soporta PNG</th>
+									<th>Soporta PNG8</th>
+								</tr>
+							</thead>
+							<tbody id="rows">
+							</tbody>
+						</table>
+					</section>
+				</div> <!--span-->
+			</div>	<!-- row -->
+		</div>
+
+	<script src="bootstrap/js/bootstrap.min.js"></script>        
+	<script type="text/javascript">
+	
+	$('.bs-docs-sidenav').affix({
+      offset: {
+        top: function () { return $(window).width() <= 980 ? 290 : 210 }
+      , bottom: 270
+      }
+    })
+	</script>
+    </body>
+</html>
