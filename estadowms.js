@@ -34,12 +34,12 @@ function init()
 {
 	    
 	OpenLayers.ProxyHost= function(url) {
-		return "../proxy/?url=" + encodeURIComponent(url);
+		return "/mapa/proxy/?url=" + encodeURIComponent(url);
     };
 	for (s in sources) {
 		var $tr = $('<tr id="'+ s + '"></tr>');
 		$tr.append('<td style="background-color:black;color:white" class="title">' + sources[s].title +'</td>');
-		$tr.append('<td colspan=6 class="cargando"></td>');
+		$tr.append('<td colspan=6 class="cargando"><img style="height:50px" alt="Cargabdi..." src="http://i.imgur.com/6RMhx.gif"</td>');
 		$('#servidores').append($tr);
 	}
 	for ( s in sources ) {

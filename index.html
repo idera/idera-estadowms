@@ -6,7 +6,6 @@
 		 <meta charset="utf-8">
         <title>Estado de los servidores WMS de IDERA</title>
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css"/>
-        <link rel="stylesheet" href="http://dev.openlayers.org/sandbox/august/trunk/theme/default/style.css" type="text/css"/>
         <script src="OpenLayers.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
@@ -207,24 +206,25 @@
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar" onload="init();">
 		<header class="jumbotron subhead" id="overview">
+			<img style="float:right;height:70px;margin-top:-35px"src="logo.png" /> 
 		  <div class="container">
 			<h1>Servicios WMS IDERA</h1>
 			<p class="lead">En este panel se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
 		  </div>
 		</header>
-        <div class="container">
+        <div class="container-fluid">
 			<div class="row">
 
 				<div class="span3 bs-docs-sidebar">
 					<ul id="menu" class="nav nav-list bs-docs-sidenav">	
 					  <li><a href="#estado"><i class="icon-chevron-right"></i> Estado general</a></li>
-					  <li><a href="#recomendaciones"><i class="icon-chevron-right"></i>  Recomendaciones para normalizar los servidores WMS</a></li>
+					  <li><a href="#recomendaciones"><i class="icon-chevron-right"></i>  Recomendaciones para normalizar los servicios WMS</a></li>
 					</ul>
 				</div>
 				<div class="span9">
 					<section id="estado">
 						<div class="page-header">
-							<h3>Estado general</h3>
+							<h3>Estado general de los servicios WMS</h3>
 						</div>
 						<table style="font-size:0.8em" class="table  table-bordered table-condensed">
 							<thead>
