@@ -1,3 +1,7 @@
+/**
+ *
+ */
+
 var format;
 
 var estados = {};
@@ -35,7 +39,7 @@ function init()
 	for (s in sources) {
 		var $tr = $('<tr id="'+ s + '"></tr>');
 		$tr.append('<td style="background-color:black;color:white" class="title">' + sources[s].title +'</td>');
-		$tr.append('<td colspan=6 class="cargando">Cargando ... </td>');
+		$tr.append('<td colspan=6 class="cargando"></td>');
 		$('#servidores').append($tr);
 	}
 	for ( s in sources ) {
@@ -79,7 +83,7 @@ function go( idSource, source )
 				fallo(idSource, msj);
 				return;
 			}
-			console.log(capabilities);
+			//console.log(capabilities);
             var layers = capabilities.capability.layers;
 
 			imprimir(idSource, source, capabilities);
@@ -125,6 +129,7 @@ function diagnosticar(idSource, source, capabilities)
 	estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml'] = false;
 	estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = false;
 	estados[idSource].wms.soporta.formats['image/png'] = false;
+	estados[idSource].wms.soporta.formats['image/jpeg'] = false;
 	estados[idSource].wms.soporta.formats['image/png8'] = false;
 
 	for (var i=0; i< capabilities.capability.layers.length; i++)
@@ -173,6 +178,11 @@ function diagnosticar(idSource, source, capabilities)
 				}
 		}
 
+		for (var j=0; j< l.formats.length ; j++) {
+			if ( l.formats[j] == 'image/jpeg') {
+				estados[idSource].wms.soporta.formats['image/jpeg'] = true;
+				}
+		}
 		estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
 
 	}
@@ -199,9 +209,9 @@ function imprimir(idSource, source, capabilities)
 			estados[idSource].wms.abstract = capabilities.service.abstract;
 
 			if ( capabilities.service.abstract ) {
-				$a1.append( '<td class="ok">'+ resumen(capabilities.service.abstract, 12) +'</td>' );
+				$a1.append( '<td rel="tooltip" title="' + capabilities.service.abstract + '" class="ok">'+ resumen(capabilities.service.abstract, 12) +'</td>' );
 			} else {
-				$a1.append( '<td class="warning"> SIN DEFINIR EN EL SERVIDOR</td>' );
+				$a1.append( '<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Abstract del Servicio WMS" class="warning"> SIN DEFINIR EN EL SERVIDOR</td>' );
 			}
 			
 
@@ -219,6 +229,7 @@ function imprimir(idSource, source, capabilities)
 			estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = false;
 			estados[idSource].wms.soporta.formats['image/png'] = false;
 			estados[idSource].wms.soporta.formats['image/png8'] = false;
+			estados[idSource].wms.soporta.formats['image/jpeg'] = false;
 
 			for (var i=0; i< capabilities.capability.layers.length; i++)
 			{
@@ -266,6 +277,12 @@ function imprimir(idSource, source, capabilities)
 						}
 				}
 
+				for (var j=0; j< l.formats.length ; j++) {
+					if ( l.formats[j] == 'image/jpeg') {
+						estados[idSource].wms.soporta.formats['image/jpeg'] = true;
+						}
+				}
+
 				estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
 
 			}
@@ -275,12 +292,12 @@ function imprimir(idSource, source, capabilities)
 				for ( e in estados[idSource].wms.soporta.srs ) {
 					var alias = e;
 					if ( e == 'EPSG:22183') {
-						alias = 'Gauss-Krügger / POSGAR 94';
+						alias = 'Gauss-Krüger / POSGAR 94';
 					}
 					if ( estados[idSource].wms.soporta.srs[e] )	{
 						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
 					} else {
-						var $c = $('<span class="label label-important">No soporta ' + alias + '</span><p/>');
+						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los Sistemas de Referencia Espacial" class="label label-important">No soporta ' + alias + '</span><p/>');
 					}
 					$b.append($c);
 					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.srs[e];
@@ -306,7 +323,7 @@ function imprimir(idSource, source, capabilities)
 					if ( estados[idSource].wms.soporta.infoFormats[e] )	{
 						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
 					} else {
-						var $c = $('<span class="label label-important">No soporta ' + alias + '</span><p/>');
+						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de GetFeatureInfo" class="label label-important">No soporta ' + alias + '</span><p/>');
 					}
 					$b.append($c);
 					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.infoFormats[e];
@@ -326,11 +343,13 @@ function imprimir(idSource, source, capabilities)
 						alias = 'PNG'
 					} else if ( e == 'image/pn8') {
 						alias = 'PNG8';
-					}
+					} else if ( e == 'image/jpeg') {
+						alias = 'JPEG';
+					} 
 					if ( estados[idSource].wms.soporta.formats[e] )	{
 						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
 					} else {
-						var $c = $('<span class="label label-important">No soporta ' + alias + '</span><p/>');
+						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de imagen" class="label label-important">No soporta ' + alias + '</span><p/>');
 					}
 					$b.append($c);
 					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.formats[e];
@@ -344,15 +363,18 @@ function imprimir(idSource, source, capabilities)
 				if (estados[idSource].wms.puerto == '80') {
 					$a1.append('<td class="ok">' + estados[idSource].wms.puerto + '</td>');
 				} else {
-					$a1.append('<td class="fail">' + estados[idSource].wms.puerto + '</td>');
+					$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del puerto del servicios WMS" class="fail">' + estados[idSource].wms.puerto + '</td>');
 				}
-				
+
+			$('td').tooltip();
+			$('span').tooltip();
+
 			// tabla de capas
 			var idRow = 'capas_' + idSource;
 			//Agrego una fila al menú
 			$('#menu').append('<li><a href="#'+idRow+'"><i class="icon-chevron-right"></i> Capas en '+idSource+'</a></li>');
 			// Agrego th para principio de capas de cada servidor
-			$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="9" style="background-color:black !important;color:white" > <h3>Capas del servidor de ' + capabilities.service.title + '</h3></td></tr>') );			
+			$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="9" style="background-color:black !important;color:white" > <h5>Capas de <em>' + capabilities.service.title + '</em></h5></td></tr>') );			
 
 			for(var i=0; i<capas.length; i++) {
 		
@@ -362,6 +384,9 @@ function imprimir(idSource, source, capabilities)
 					imprimirCapa( l );
 				
 			}
+
+			$('#'+idRow+' td').tooltip();
+
 	}
 	//OpenLayers.Console.debug(layersStr);
 }
@@ -373,9 +398,9 @@ function imprimirCapa( l )
 	$('#rows').append($a);
 
 	if (l.title == l.name) {
-		$a.append('<td class="warning">' + l.title + '</td>');
+		$a.append('<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Title de las capas" class="warning">' + l.title + '</td>');
 	} else if (! l.title) {
-		$a.append('<td class="fail">' + l.title + '</td>');
+		$a.append('<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Title de las capas" class="fail">' + l.title + '</td>');
 	} else {
 		$a.append('<td class="ok">' + l.title + '</td>');
 	}
@@ -384,9 +409,9 @@ function imprimirCapa( l )
 	$a.append('<td>' + l.name + '</td>');
 
 	if (l.abstract) {
-		$a.append('<td class="ok">' + resumen(l.abstract, 12) + '</td>');
+		$a.append('<td rel="tooltip" title="' + l.abstract + '" class="ok">' + resumen(l.abstract, 12) + '</td>');
 	} else {
-		$a.append( '<td class="warning"> SIN DEFINIR EN EL SERVIDOR</td>' );
+		$a.append( '<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Abstract de las capas" class="warning"> SIN DEFINIR EN EL SERVIDOR</td>' );
 	}
 
 	kwString = '';
@@ -401,11 +426,11 @@ function imprimirCapa( l )
 		kwString = kwString + kw + '<br/>';
 	}
 	if (! kwString ) {
-		$a.append( '<td class="fail">SIN DEFINIR EN EL SERVIDOR</td>' );
+		$a.append( '<td el="tooltip" title="Ver recomendaciones acerca del atributo WMS Palabra Clave de las capas" class="fail">SIN DEFINIR EN EL SERVIDOR</td>' );
 	} else if (usaKeywordsParaTemaPerfilMetadatos  ) {
 		$a.append( '<td class="ok">'+ kwString +'</td>' );
 	} else {
-		$a.append( '<td class="warning">'+ kwString +'</td>' );
+		$a.append( '<td el="tooltip" title="Ver recomendaciones acerca del atributo WMS Palabra clave de las capas" class="warning">'+ kwString +'</td>' );
 	}
 	
 	metadataURLsString = '';
@@ -415,7 +440,7 @@ function imprimirCapa( l )
 	}
 
 	if (! metadataURLsString ) {
-		$a.append( '<td class="fail">SIN DEFINIR EN EL SERVIDOR</td>' );
+		$a.append( '<td el="tooltip" title="Ver recomendaciones acerca del atributo WMS Link a metadatos de las capas" class="warning">SIN DEFINIR EN EL SERVIDOR</td>' );
 	} else {
 		$a.append( '<td class="ok">'+ metadataURLsString+'</td>' );
 	}
@@ -429,56 +454,6 @@ function imprimirCapa( l )
 	var soportaPNG = false;
 	var soportaPNG8 = false
 
-
-	
-	for (var j=0; j< l.infoFormats.length ; j++) {
-		if ( l.infoFormats[j] == 'text/html') {
-			soportaGetFeatureInfoTextHTML = true;
-		}
-	}
-
-	for (var j=0; j< l.infoFormats.length ; j++) {
-		if ( l.infoFormats[j] == 'application/vnd.ogc.gml') {
-			soportaGetFeatureInfoGML2 = true;
-		}
-	}
-
-	for (var j=0; j< l.formats.length ; j++) {
-		if ( l.formats[j] == 'image/png') {
-			soportaPNG = true;
-		}
-	}
-
-	for (var j=0; j< l.formats.length ; j++) {
-		if ( l.formats[j] == 'image/png8') {
-			soportaPNG8 = true;
-		}
-	}
-
-
-	if (soportaGetFeatureInfoTextHTML) {
-		$a.append( '<td class="ok"> Soporta GetFeatureInfo text/html </td>' );
-	} else {
-		$a.append( '<td class="fail"> No soporta GetFeatureInfo text/html </td>' );
-	}
-
-	if (soportaGetFeatureInfoGML2) {
-		$a.append( '<td class="ok"> Soporta GetFeatureInfo GML 2 </td>' );
-	} else {
-		$a.append( '<td class="fail"> No soporta GetFeatureInfo GML 2 </td>' );
-	}
-
-	if (soportaPNG) {
-		$a.append( '<td class="ok"> Soporta image/png </td>' );
-	} else {
-		$a.append( '<td class="fail"> No soporta image/png </td>' );
-	}
-
-	if (soportaPNG8) {
-		$a.append( '<td class="ok"> Soporta image/png8 </td>' );
-	} else {
-		$a.append( '<td class="fail"> No soporta image/png8</td>' );
-	}
 }
 
 function resumen( texto, cantPalabras)

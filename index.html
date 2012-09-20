@@ -200,7 +200,6 @@
 		  right: 0;
 		  bottom: 0;
 		  left: 0;
-		  background: url(../img/bs-docs-masthead-pattern.png) repeat center center;
 		  opacity: .4;
 		}
 
@@ -210,15 +209,16 @@
 		<header class="jumbotron subhead" id="overview">
 		  <div class="container">
 			<h1>Servicios WMS IDERA</h1>
-			<p class="lead">En este panel de control se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
+			<p class="lead">En este panel se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
 		  </div>
 		</header>
         <div class="container">
 			<div class="row">
 
 				<div class="span3 bs-docs-sidebar">
-					<ul id="menu" class="nav nav-list bs-docs-sidenav">
+					<ul id="menu" class="nav nav-list bs-docs-sidenav">	
 					  <li><a href="#estado"><i class="icon-chevron-right"></i> Estado general</a></li>
+					  <li><a href="#recomendaciones"><i class="icon-chevron-right"></i>  Recomendaciones para normalizar los servidores WMS</a></li>
 					</ul>
 				</div>
 				<div class="span9">
@@ -230,8 +230,8 @@
 							<thead>
 								<tr style="background-color:black;color:white">
 									<th>Organismo</th>
-									<th>Campo WMS Title</th>
-									<th>Campo WMS Abstract</th>
+									<th>Atributo WMS Title</th>
+									<th>Atributo WMS Abstract</th>
 									<th>Soporte de Sistemas de Referencia Espacial</th>
 									<th>Soporte a formatos de respuesta GetFeatureInfo</th>
 									<th>Soporta formatos de Imagen</th>
@@ -250,20 +250,154 @@
 						<table style="font-size:0.8em" class="table table-bordered table-condensed">
 							<thead>
 								<tr style="background-color:black;color:white">
-									<th>Campo WMS Title</th>
-									<th>Campo WMS Name</th>
-									<th>Campo WMS Abstract</th>
+									<th>Atributo WMS Title</th>
+									<th>Atributo WMS Name</th>
+									<th>Atributo WMS Abstract</th>
 									<th>Palabras clave WMS</th>
 									<th>Link a metadatos</th>
-									<th>Soporta GetFeatureInfo text/html</th>
-									<th>Soporta GetFeatureInfo GML</th>
-									<th>Soporta PNG</th>
-									<th>Soporta PNG8</th>
 								</tr>
 							</thead>
 							<tbody id="rows">
 							</tbody>
 						</table>
+					</section>
+					<section id="recomendaciones">
+						<div class="page-header">
+							<h3>Recomendaciones para normalizar los servidores WMS</h3>
+						</div>
+						<h4>Acerca de los atributos WMS del Servidor</h4>
+
+						<h5>Atributo Title</h5>
+						<p>
+						Se recomienda completar este atributo a fin de que este texto sea descriptivo para quien
+						esté viendo el listado de servicios WMS en el visualizador de IDERA.
+						</p>
+
+						<h5>Atributo Abstract</h5>
+						<p>
+						Se recomienda completar este atributo a fin de que describa los datos provistos por el servicios WMS.
+						</p>
+
+						<h4>Acerca del puerto 80 del Servidor</h4>
+
+						<p>
+						Es recomendable que el servicio WMS esté accesible a través del puerto 80 (el puerto estándar para la web)
+						a fin de que los usuarios que deseen consultar los servicios WMS no se vean imposibilitados por algún
+						proxy/firewall. Son muy comunes los proxies institucionales que solo permiten a los usuarios de la red local,
+						el acceso a sitios o páginas en el puerto estándar de la web.
+						</p>
+
+						<h4>Acerca de los atributos WMS de las capas</h4>
+
+						<h5>Atributo Title</h5>
+						<p>
+						Se recomienda completar este atributo a fin de que este texto sea descriptivo de los datos que la capa contiene.
+						En general, el software de servidor suele completar automáticamente este atributo con el mismo valor del atributo name.
+						<strong>Se recomienda que estos dos valores difieran ya que el atributo nombre se utiliza como identificador único y el título
+						como descripción del identificador.</strong>
+						</p>
+
+						<h5>Atributo Abstract</h5>
+						<p>
+						Se recomienda completar este atributo a fin de que describa los datos y tipos de datos contenidos en esta capa.
+						</p>
+
+						<h5>Atributo Keywords (Palabras clave)</h5>
+						<p>
+						Este campo no solo permite palabras individuales. Sino que cada keyword puede ser un término compuesto como por ejemplo <em>Aguas interiores</em>.
+						Se recomienda aprovechar este atributo para que contenga entre las keywords, por lo menos uno de los <em>temas</em> definidos por el perfil de metadatos de IDERA.
+						Estos <em>temas</em> son <strong>Agricultura</strong>, <strong>Biota</strong>, <strong>Límites</strong>, <strong>Clima</strong>, <strong>Economía</strong>, <strong>Elevación</strong>, <strong>Medio ambiente</strong>, <strong>Información geocientífica</strong>, <strong>Salud</strong>, <strong>Coberturas Básicas</strong>, <strong>Inteligencia / Militar</strong>, <strong>Aguas interiores</strong>, <strong>Ubicación</strong>, <strong>Océanos</strong>, <strong>Planificación de catastro</strong>, <strong>Sociedad</strong>, <strong>Estructura</strong>, <strong>Transporte</strong>, <strong>Utilidades / Comunicaciones</strong>.<br/>
+						Se recomienda el comienzo de cada tema con la primer letra en mayúscula tal cual las define el perfil de metadatos.
+						</p>
+
+						<h5>Atributo Link a metadatos</h5>
+						<p>
+						Se recomienda que este campo contenga el link a un servicio de metadatos conforme a OGC que contenga los metadatos para el set
+						de datos contenidos en esta capa.
+						</p>
+
+
+						<h4>Acerca de los Sistemas de Referencia Espacial</h4>
+
+						<h5>EPSG:4326</h5>
+						<p>
+						Este código es el código utilizado y reconocido por EPSG para representar datos geoespaciales
+						basado en un dátum (elipsoide y marco de referencia) WGS84 (o ITRF05). En este sistema, la proyección
+						corresponde a una en la cual las coordenadas de un objeto en una imagen en sus ejes X e Y se corresponden
+						con los valores de las coordenadas longitud y latitud de los objetos geográficos, respectivamente.
+						</p>
+						<h5>EPSG:3857</h5>
+						<p>
+						Este código es el código utilizado y reconocido por EPSG para representar el sistema de referencia espacial utilizado por Google Maps,
+						Bing Maps, Yahoo Maps, OpenStreetMap, ESRI Web Maps  y demás mapas web populares. 
+						Consiste en una proyección de Mercator y se vale de una esfera auxiliiar para la proyección
+						aunque está basado en un datum igual al definido por el WGS84 (o ITRF05).<br/>
+						<div class="alert alert-info">Soportar este Sistema de Referencia espacial ofrece alta compatilibidad con servicios de mapas a nivel internacional debido
+						a su uso tan común</div>
+						</p>
+
+						<h5>EPSG:900913</h5>
+						<p>
+						Este código es el que una gran cantidad de software geoespacial (Openlayers, Mapserver, Geoserver, etc) utilizaban
+						para representar el sistema de referencia espacial
+						de Google Maps, Bing Maps, Yahoo Maps, OpenStreetMap, ESRI Web Maps
+						y demás mapas web populares hasta que EPSG la reconoció entre sus datos y le asignó el código
+						<strong>EPSG:3857</strong> para definirla.
+						<div class="alert alert-info">Soportar este Sistema de Referencia espacial ofrece alta compatilibidad con servicios de mapas a nivel internacional debido
+						a su uso tan común</div>
+						<p>
+
+						<h5>Gauss-Krüger / POSGAR 94</h5>
+						<p>
+						Esta denominación hace referencia a la proyección Gauss Krüger utilizando el marco de referencia POSGAR 94,
+						que corresponde a los códigos EPSG: 22181, 22182, 22183, 22184, 22185, 22186 y 22187, respectivamente,
+						para las fajas 1 a 7 a fin de representar el territorio nacional en sus correctas proporciones.
+						<p>
+
+						<h4>Acerca de los Formatos soportados para GetFeatureInfo</h4>
+
+						<h5>text/html</h5>
+						<p>
+						Este formato es el aprovechado por el visualizador de IDERA. Y permite representar la consulta puntual
+						acerca de un objeto geográfico sobre el globito que se despliega al acerca click sobre el mapa.
+						</p>						
+
+						<h5>GML 2</h5>
+						<p>
+						Este formato es un derivado de XML que soporta campos específicamente geoespaciales. Se utiliza a fines
+						de consultas programáticas por parte de un software cuya tarea no es necesariamente representar el resultado
+						para ser visto de manera gráfica aunque sí procesable por otrao sistema.
+						</p>						
+
+						<h4>Acerca de los Formatos soportados para las imágenes GetMap</h4>
+
+						<h5>image/jpeg</h5>
+						<p>
+						El formato JPEG de imágenes es el formato más comun utilizado para las capas de los servidores WMS>
+						Este formato no permite representar transparencias y por su alta compresión <strong>con pérdidas</strong>
+						es generalmente utilizado para datos que no tengan origen vectorial. JPEG utiliza 24 bits para representar
+						el color de cada pixel y define <strong>compresión con pérdidas regulable</strong> a la hora de guardar la información
+						de la imagen.
+						</p>
+
+						<h5>image/png</h5>
+						<p>
+						El formato PNG de imágenes permite representar transparencias y es el comunmente utilizado
+						para las capas superpuestas sobre una capa base. Este formato utiliza 24 bits para representar
+						el color de cada pixel y define <strong>compresión sin pérdidas</strong> a la hora de guardar la información
+						de la imagen.
+						</p>
+
+						<h5>image/png8</h5>
+						<p>
+						Esta variación del formato PNG permite archivos PNG de menor tamaño (en términos de bytes) ya que
+						en lugar de usar 24 bits para representar el color de cada pixel, utiliza solo 8 para representar
+						el color de cada pixel pero según una paleta de colores no estándar que está guardada en el mismo
+						archivo de imagen. Esta paleta es generada por el servidor al momento de generar la imagen
+						y solo hace referencia a los colores que sí están siendo usados en la imagen y no a todos los colores
+						posibles del mundo real. Esto deviene en imágenes iguales a las logradas con PNG en la mayoría de los casos
+						pero con un tamaño muy inferior al logrado por el formato PNG de 24 bits.
+						</p>
 					</section>
 				</div> <!--span-->
 			</div>	<!-- row -->
