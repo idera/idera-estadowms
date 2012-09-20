@@ -38,7 +38,7 @@ function init()
     };
 	for (s in sources) {
 		var $tr = $('<tr id="'+ s + '"></tr>');
-		$tr.append('<td style="background-color:black;color:white" class="title">' + sources[s].title +'</td>');
+		$tr.append('<td style="background-color:black;color:white;font-size:1.5em" class="title">' + sources[s].title +'</td>');
 		$tr.append('<td colspan=6 class="cargando"><img style="height:50px" alt="Cargabdi..." src="http://i.imgur.com/6RMhx.gif"</td>');
 		$('#servidores').append($tr);
 	}
@@ -366,7 +366,7 @@ function imprimir(idSource, source, capabilities)
 					$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del puerto del servicios WMS" class="fail">' + estados[idSource].wms.puerto + '</td>');
 				}
 
-			$('td').tooltip();
+			$('#servidores td').tooltip();
 			$('span').tooltip();
 
 			// tabla de capas
