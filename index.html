@@ -274,6 +274,7 @@
 									<th>Soporte de Sistemas de Referencia Espacial</th>
 									<th>Soporte a formatos de respuesta GetFeatureInfo</th>
 									<th>Soporta formatos de Imagen</th>
+									<th>Soporte a formatos de excepciones (errores)</th>
 									<th>Puerto 80 ?</th>
 								</tr>
 							</thead>
@@ -367,9 +368,9 @@
 						a su uso tan común</div>
 						<p>
 
-						<h3>Gauss-Krüger / POSGAR 94</h3>
+						<h3>Gauss / POSGAR 94</h3>
 						<p>
-						Esta denominación hace referencia a la proyección Gauss Krüger utilizando el marco de referencia POSGAR 94,
+						Esta denominación hace referencia a la proyección Gauss utilizando el marco de referencia POSGAR 94,
 						que corresponde a los códigos EPSG: 22181, 22182, 22183, 22184, 22185, 22186 y 22187, respectivamente,
 						para las fajas 1 a 7 a fin de representar el territorio nacional en sus correctas proporciones.
 						<p>
@@ -425,6 +426,14 @@
 						y solo hace referencia a los colores que sí están siendo usados en la imagen y no a todos los colores
 						posibles del mundo real. Esto deviene en imágenes iguales a las logradas con PNG (salvo raras excepciones)
 						pero con un tamaño muy inferior al logrado por el formato PNG de 24 bits.
+						</p>
+
+						<h2>Acerca de los Formatos soportados para las excepciones</h2>
+
+						<h3>application/vnd.ogc.se_inimage</h3>
+						<p>
+						Se recomienda que el formato de excepción sea <code>application/vnd.ogc.se_inimage</code>. Es decir una 
+						mensaje descriptivo del error devuelto en formato de imagen y no de texto.
 						</p>
 					</section>
 					<section id="capas">
