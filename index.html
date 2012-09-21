@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <html>
     <head>
 		 <meta charset="utf-8">
         <title>Estado de los servidores WMS de IDERA</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css" type="text/css"/>
         <script src="OpenLayers.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
@@ -52,7 +53,20 @@
 		.label {
 			font-size:0.8em;
 		}
-/* Estilos para la sidenav */
+		
+		.footer {
+			padding: 70px 0;
+			margin-top: 70px;
+			border-top: 1px solid #E5E5E5;
+			background-color: whiteSmoke;
+		}
+
+		.footer p {
+			margin-bottom: 0;
+			color: #777;
+		}
+
+		/* Estilos para la sidenav */
 		.bs-docs-sidenav {
 		  width: 228px;
 		  margin: 30px 0 0;
@@ -219,7 +233,6 @@
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar" onload="init();">
 		<header class="jumbotron subhead" id="overview">
-			<img style="float:right;height:70px;margin-top:-35px"src="logo.png" /> 
 		  <div class="container">
 			<h1>Servicios WMS IDERA</h1>
 			<p class="lead">En este panel se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
@@ -329,7 +342,7 @@
 						<h3>EPSG:4326</h3>
 						<p>
 						Este código es el código utilizado y reconocido por EPSG para representar datos geoespaciales
-						basado en un dátum (elipsoide y marco de referencia) WGS84 (o ITRF05). En este sistema, la proyección
+						basado en un datum (elipsoide y marco de referencia) <a target="_blank" href="http://es.wikipedia.org/wiki/WGS84">WGS84</a> . En este sistema, la proyección
 						corresponde a una en la cual las coordenadas de un objeto en una imagen en sus ejes X e Y se corresponden
 						con los valores de las coordenadas longitud y latitud de los objetos geográficos, respectivamente.
 						</p>
@@ -361,6 +374,11 @@
 						para las fajas 1 a 7 a fin de representar el territorio nacional en sus correctas proporciones.
 						<p>
 
+						<div class="alert alert-error">Soportar este Sistema de Referencia espacial nos permite proyectar todos los datos de la IDE
+						de manera en que se pueda cumpliar con la <a target="_blank" href="http://www.ign.gob.ar/AreaInstitucional/Normativa/Leyes/LeyBicontinental">ley 26.651</a>
+						de <em>Obligatoriedad del uso del Mapa Bicontinental de la República Argentina</em>,  ofreciendo en escalas grandes, el territorio argentino representado en sus correctas proporciones.</div>
+						</p>
+
 						<h2>Acerca de los Formatos soportados para GetFeatureInfo</h2>
 
 						<h3>text/html</h3>
@@ -380,10 +398,10 @@
 
 						<h3>image/jpeg</h3>
 						<p>
-						El formato JPEG de imágenes es el formato más comun utilizado para las capas de los servidores WMS>
+						El formato JPEG de imágenes es el formato más comun utilizado para las capas de los servidores WMS.
 						Este formato no permite representar transparencias y por su alta compresión <strong>con pérdidas</strong>
 						es generalmente utilizado para datos que no tengan origen vectorial. JPEG utiliza 24 bits para representar
-						el color de cada pixel y define <strong>compresión con pérdidas regulable</strong> a la hora de guardar la información
+						el color de cada píxel y define <strong>compresión con pérdidas regulable</strong> a la hora de almacenar la información
 						de la imagen.
 						</p>
 
@@ -391,7 +409,7 @@
 						<p>
 						El formato PNG de imágenes permite representar transparencias y es el comunmente utilizado
 						para las capas superpuestas sobre una capa base. Este formato utiliza 24 bits para representar
-						el color de cada pixel y define <strong>compresión sin pérdidas</strong> a la hora de guardar la información
+						el color de cada pixel y define <strong>compresión sin pérdidas</strong> a la hora de almacenar la información
 						de la imagen.
 						</p>
 
@@ -400,9 +418,12 @@
 						Esta variación del formato PNG permite archivos PNG de menor tamaño (en términos de bytes) ya que
 						en lugar de usar 24 bits para representar el color de cada pixel, utiliza solo 8 para representar
 						el color de cada pixel pero según una paleta de colores no estándar que está guardada en el mismo
-						archivo de imagen. Esta paleta es generada por el servidor al momento de generar la imagen
+						archivo de imagen.
+						</p>
+						<p>
+						Esta paleta es generada por el servidor al momento de generar la imagen
 						y solo hace referencia a los colores que sí están siendo usados en la imagen y no a todos los colores
-						posibles del mundo real. Esto deviene en imágenes iguales a las logradas con PNG en la mayoría de los casos
+						posibles del mundo real. Esto deviene en imágenes iguales a las logradas con PNG (salvo raras excepciones)
 						pero con un tamaño muy inferior al logrado por el formato PNG de 24 bits.
 						</p>
 					</section>
@@ -419,6 +440,7 @@
 									<th>Atributo WMS Abstract</th>
 									<th>Palabras clave WMS</th>
 									<th>Link a metadatos</th>
+									<th>Estilos</th>
 								</tr>
 							</thead>
 							<tbody id="rows">
@@ -428,8 +450,14 @@
 
 				</div> <!--span-->
 			</div>	<!-- row -->
-		</div>
-
+		</div> <!--container-->
+		<footer class="footer">
+			<div class="container" style="width:80%">
+				<p>
+				Desarrollado por <img style="height:100px" src="logo.png" /> 
+				</p>
+			</div>
+		</footer>
 	<script src="bootstrap/js/bootstrap.min.js"></script>        
 	<script type="text/javascript">
 	
