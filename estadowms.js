@@ -29,6 +29,13 @@ var temasPerfilMetadatos = {
 
 };
 
+function Log( texto ) 
+{
+	if (window.console) {
+		console.log( texto);
+	}
+}
+
 function init()
 	
 {
@@ -73,20 +80,16 @@ function go( idSource, source )
             }
 
             var capabilities = format.read(doc);  
-//			console.log( xmlParser(doc, '', 'encoding') );
-			if (idSource == 'ign') {
-			_aa = capabilities;
-			}
 
 			if (capabilities.error) {
 				var msj = 'El servidor ' + source.title + ' no devolvió el documento capabilities';
 				fallo(idSource, msj);
 				return;
 			}
-			//console.log(capabilities);
-            var layers = capabilities.capability.layers;
+			Log(capabilities);
 
-			imprimir(idSource, source, capabilities);
+			diagnosticar(idSource, source, capabilities);
+			imprimir(idSource, capabilities.capability.layers);
 
         }, 
         failure: function() {            
@@ -190,104 +193,26 @@ function diagnosticar(idSource, source, capabilities)
 
 }
 
-function imprimir(idSource, source, capabilities)
+function imprimir(idSource, capas)
 {
 
-			var capas = capabilities.capability.layers;
-			
+
 			
 			var $a1 = $('#' + idSource);
 			$a1.find('.cargando').remove();
 
-			estados[idSource].wms = {};
-			estados[idSource].wms.title = capabilities.service.title;
-			estados[idSource].wms.nCapas = capas.length;
-
-			$a1.find('.title').append( '<br/><strong>(' + capas.length + ' capas)</strong>' );
-			$a1.append( '<td >'+ capabilities.service.title +'</td>' );
+			$a1.find('.title').append( '<br/><strong>(' + estados[idSource].wms.nCapas + ' capas)</strong>' );
+			$a1.append( '<td >'+ estados[idSource].wms.title +'</td>' );
 			
-			estados[idSource].wms.abstract = capabilities.service.abstract;
-
-			if ( capabilities.service.abstract ) {
-				$a1.append( '<td rel="tooltip" title="' + capabilities.service.abstract + '" class="ok">'+ resumen(capabilities.service.abstract, 12) +'</td>' );
+			if ( estados[idSource].wms.abstract ) {
+				$a1.append( '<td rel="tooltip" title="' + estados[idSource].wms.abstract + '" class="ok">'+ resumen(estados[idSource].wms.abstract, 12) +'</td>' );
 			} else {
 				$a1.append( '<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Abstract del Servicio WMS" class="warning"> SIN DEFINIR EN EL SERVIDOR</td>' );
 			}
 			
 
-			estados[idSource].wms.soporta = {};
-			estados[idSource].wms.puerto = 80;
-			estados[idSource].wms.soporta.srs = {};
-			estados[idSource].wms.soporta.infoFormats = {};
-			estados[idSource].wms.soporta.formats = {};
-			estados[idSource].wms.soporta.srs['EPSG:900913'] = false;
-			estados[idSource].wms.soporta.srs['EPSG:3857'] = false;
-			estados[idSource].wms.soporta.srs['EPSG:4326'] = false;
-			estados[idSource].wms.soporta.srs['EPSG:22183'] = false;
-			estados[idSource].wms.soporta.infoFormats['text/html'] = false;
-			estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml'] = false;
-			estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = false;
-			estados[idSource].wms.soporta.formats['image/png'] = false;
-			estados[idSource].wms.soporta.formats['image/png8'] = false;
-			estados[idSource].wms.soporta.formats['image/jpeg'] = false;
-
-			for (var i=0; i< capabilities.capability.layers.length; i++)
-			{
-				var  l = capabilities.capability.layers[i];
-				if (l.srs['EPSG:900913'])	{
-					estados[idSource].wms.soporta.srs['EPSG:900913'] = true;
-				}
-				if (l.srs['EPSG:3857'] )	{
-					estados[idSource].wms.soporta.srs['EPSG:3857'] = true;
-				}
-				if (l.srs['EPSG:4326'] )	{
-					estados[idSource].wms.soporta.srs['EPSG:4326'] = true;
-				}
-				if (l.srs['EPSG:22183'] )	{
-					estados[idSource].wms.soporta.srs['EPSG:22183'] = true;
-				}
-
-				for (var j=0; j< l.infoFormats.length ; j++) {
-					if ( l.infoFormats[j] == 'text/html') {
-						estados[idSource].wms.soporta.infoFormats['text/html'] = true;
-					}
-				}
-
-				for (var j=0; j< l.infoFormats.length ; j++) {
-					if ( l.infoFormats[j] == 'application/vnd.ogc.gml') {
-						estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml'] = true;
-					}
-				}
-
-				for (var j=0; j< l.infoFormats.length ; j++) {
-					if ( l.infoFormats[j] == 'application/vnd.ogc.gml/3.1.1') {
-						estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = true;
-					}
-				}
-
-				for (var j=0; j< l.formats.length ; j++) {
-					if ( l.formats[j] == 'image/png') {
-						estados[idSource].wms.soporta.formats['image/png'] = true;
-						}
-				}
-
-				for (var j=0; j< l.formats.length ; j++) {
-					if ( l.formats[j] == 'image/png8') {
-						estados[idSource].wms.soporta.formats['image/png8'] = true;
-						}
-				}
-
-				for (var j=0; j< l.formats.length ; j++) {
-					if ( l.formats[j] == 'image/jpeg') {
-						estados[idSource].wms.soporta.formats['image/jpeg'] = true;
-						}
-				}
-
-				estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
-
-			}
-
 				var $b = $('<td></td>');
+
 				$b.esBayer = true;
 				for ( e in estados[idSource].wms.soporta.srs ) {
 					var alias = e;
@@ -374,7 +299,7 @@ function imprimir(idSource, source, capabilities)
 			//Agrego una fila al menú
 			$('#menu').append('<li><a href="#'+idRow+'"><i class="icon-chevron-right"></i> Capas en '+idSource+'</a></li>');
 			// Agrego th para principio de capas de cada servidor
-			$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="9" style="background-color:black !important;color:white" > <h5>Capas de <em>' + capabilities.service.title + '</em></h5></td></tr>') );			
+			$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10" style="background-color:black !important;color:white" > <h5>Capas de <em>' + estados[idSource].wms.title  + '</em></h5></td></tr>') );			
 
 			for(var i=0; i<capas.length; i++) {
 		
@@ -385,11 +310,13 @@ function imprimir(idSource, source, capabilities)
 				
 			}
 
-			$('#'+idRow+' td').tooltip();
+			
 
 	}
-	//OpenLayers.Console.debug(layersStr);
+
 }
+
+
 
 function imprimirCapa( l )
 {
@@ -445,15 +372,14 @@ function imprimirCapa( l )
 		$a.append( '<td class="ok">'+ metadataURLsString+'</td>' );
 	}
 
-	var soporta4326 = false;
-	var soporta3857 = false;
-	var soporta900913 = false;
-	var soportaGaussKruger = false;
-	var soportaGetFeatureInfoTextHTML = false;
-	var soportaGetFeatureInfoGML2 = false;
-	var soportaPNG = false;
-	var soportaPNG8 = false
+	var stylesString = '';
+	for ( var j=0; j < l.styles.length; j++ ) {
+		var s = l.styles[j];
 
+		stylesString = stylesString + s.name+ '<br/>';
+	}
+	$a.append( '<td >'+ stylesString +'</td>' );
+	$a.find('td').tooltip();
 }
 
 function resumen( texto, cantPalabras)
