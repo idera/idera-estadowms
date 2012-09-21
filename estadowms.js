@@ -124,6 +124,7 @@ function diagnosticar(idSource, source, capabilities)
 	estados[idSource].wms.soporta.srs = {};
 	estados[idSource].wms.soporta.infoFormats = {};
 	estados[idSource].wms.soporta.formats = {};
+	estados[idSource].wms.soporta.excepciones = {};
 	estados[idSource].wms.soporta.srs['EPSG:900913'] = false;
 	estados[idSource].wms.soporta.srs['EPSG:3857'] = false;
 	estados[idSource].wms.soporta.srs['EPSG:4326'] = false;
@@ -134,6 +135,9 @@ function diagnosticar(idSource, source, capabilities)
 	estados[idSource].wms.soporta.formats['image/png'] = false;
 	estados[idSource].wms.soporta.formats['image/jpeg'] = false;
 	estados[idSource].wms.soporta.formats['image/png8'] = false;
+	estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_inimage'] = false;
+	estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_xml'] = false;
+
 
 	for (var i=0; i< capabilities.capability.layers.length; i++)
 	{
@@ -155,37 +159,41 @@ function diagnosticar(idSource, source, capabilities)
 			if ( l.infoFormats[j] == 'text/html') {
 				estados[idSource].wms.soporta.infoFormats['text/html'] = true;
 			}
-		}
-
-		for (var j=0; j< l.infoFormats.length ; j++) {
 			if ( l.infoFormats[j] == 'application/vnd.ogc.gml') {
 				estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml'] = true;
 			}
-		}
 
-		for (var j=0; j< l.infoFormats.length ; j++) {
 			if ( l.infoFormats[j] == 'application/vnd.ogc.gml/3.1.1') {
 				estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = true;
 			}
 		}
 
+		for (var j=0; j< capabilities.capability.exception.formats.length ; j++) {
+			if ( capabilities.capability.exception.formats[j] == 'application/vnd.ogc.se_inimage') {
+				estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_inimage'] = true;
+			}
+			if ( capabilities.capability.exception.formats[j] == 'application/vnd.ogc.se_xml') {
+				estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_xml'] = true;
+			}
+
+		}
+
 		for (var j=0; j< l.formats.length ; j++) {
 			if ( l.formats[j] == 'image/png') {
 				estados[idSource].wms.soporta.formats['image/png'] = true;
-				}
-		}
-
-		for (var j=0; j< l.formats.length ; j++) {
+			}
 			if ( l.formats[j] == 'image/png8') {
 				estados[idSource].wms.soporta.formats['image/png8'] = true;
-				}
-		}
-
-		for (var j=0; j< l.formats.length ; j++) {
+			}
 			if ( l.formats[j] == 'image/jpeg') {
 				estados[idSource].wms.soporta.formats['image/jpeg'] = true;
-				}
+			}
+			if ( l.formats[j] == 'image/jpeg') {
+				estados[idSource].wms.soporta.formats['image/jpeg'] = true;
+			}
 		}
+
+		
 		estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
 
 	}
@@ -217,7 +225,7 @@ function imprimir(idSource, capas)
 				for ( e in estados[idSource].wms.soporta.srs ) {
 					var alias = e;
 					if ( e == 'EPSG:22183') {
-						alias = 'Gauss-Krüger / POSGAR 94';
+						alias = 'Gauss / POSGAR 94';
 					}
 					if ( estados[idSource].wms.soporta.srs[e] )	{
 						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
@@ -266,7 +274,7 @@ function imprimir(idSource, capas)
 					var alias = e;
 					if ( e == 'image/png' ) {
 						alias = 'PNG'
-					} else if ( e == 'image/pn8') {
+					} else if ( e == 'image/png8') {
 						alias = 'PNG8';
 					} else if ( e == 'image/jpeg') {
 						alias = 'JPEG';
@@ -285,6 +293,33 @@ function imprimir(idSource, capas)
 					$b.addClass('warning');
 				}
 				$a1.append( $b );
+
+
+   				var $b = $('<td></td>');
+				$b.esBayer = true;
+				for ( e in estados[idSource].wms.soporta.excepciones) {
+					var alias = e;
+   					if ( e == 'application/vnd.ogc.se_inimage' ) {
+						alias = 'Imagen'
+					} else if ( e == 'application/vnd.ogc.se_xml') {
+						alias = 'XML';
+					} 
+					if ( estados[idSource].wms.soporta.excepciones[e] )	{
+						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
+					} else {
+						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de excepciones" class="label label-important">No soporta ' + alias + '</span><p/>');
+					}
+					$b.append($c);
+					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.excepciones[e];
+				}
+				if ($b.esBayer) {
+					$b.addClass('ok');
+				} else {
+					$b.addClass('warning');
+				}
+				$a1.append( $b );
+
+
 				if (estados[idSource].wms.puerto == '80') {
 					$a1.append('<td class="ok">' + estados[idSource].wms.puerto + '</td>');
 				} else {
