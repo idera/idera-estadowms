@@ -243,7 +243,8 @@
 
 				<div class="span3 bs-docs-sidebar">
 					<ul id="menu" class="nav nav-list bs-docs-sidenav">	
-					  <li><a href="#estado"><i class="icon-chevron-right"></i> Estado general</a></li>
+					  <li><a href="#estado"><i class="icon-chevron-right"></i>  Estado de los atributos WMS de los servidores WMS</a></li>
+					  <li><a href="#estadoSoporteDeFormatos"><i class="icon-chevron-right"></i>  Soporte a formatos de los servicios WMS WMS</a></li>
 					  <li><a href="#recomendaciones"><i class="icon-chevron-right"></i>  Recomendaciones para normalizar los servicios WMS</a></li>
 					</ul>
 				</div>
@@ -254,16 +255,14 @@
 						</div>
 						<div class="well">
 						<p>
-						Esta aplicación realiza algunas observaciones contra los servicios WMS integrados a IDERA en tiempo real y genera un diagnóstico
-						con el cual se pretende obtener un mapa de situación acerca de la interoperabilidad entre las diferentes implementaciones de los estándares
-						del Open Geospatial Consortium.
-						</p>
-						<p>
 						<h4>Referencia</h4>
 						<div class="ref ok">&nbsp;</div> Estado óptimo para la interoperabilidad.<br/>
 						<div class="ref warning">&nbsp;</div> Existen algunas observaciones al estado actual del servidor.<br/>
 						<div class="ref fail">&nbsp;</div> Existen algunas observaciones de caracter crítico al estado actual.
 						</p>
+						</div>
+						<div class="page-header">
+							<h2>Estado de los atributos WMS de los servidores</h2>
 						</div>
 						<table style="font-size:0.8em" class="table  table-bordered table-condensed">
 							<thead>
@@ -271,14 +270,28 @@
 									<th>Organismo</th>
 									<th>Atributo WMS Title</th>
 									<th>Atributo WMS Abstract</th>
+									<th>Información de contacto</th>
+									<th>Puerto 80 ?</th>
+									<th>Atributo href (URL del servicio)</th>
+								</tr>
+							</thead>
+							<tbody id="estadoAtributos">
+							</tbody>
+						</table>
+						<div class="page-header">
+							<h2>Soporte a formatos de los servicios WMS</h2>
+						</div>
+						<table style="font-size:0.8em" class="table  table-bordered table-condensed">
+							<thead>
+								<tr style="background-color:black;color:white">
+									<th>Organismo</th>
 									<th>Soporte de Sistemas de Referencia Espacial</th>
 									<th>Soporte a formatos de respuesta GetFeatureInfo</th>
 									<th>Soporta formatos de Imagen</th>
 									<th>Soporte a formatos de excepciones (errores)</th>
-									<th>Puerto 80 ?</th>
 								</tr>
 							</thead>
-							<tbody id="servidores">
+							<tbody id="estadoSoporteDeFormatos">
 							</tbody>
 						</table>
 					</section>
@@ -297,6 +310,23 @@
 						<h3>Atributo Abstract</h3>
 						<p>
 						Se recomienda completar este atributo a fin de que describa los datos provistos por el servicios WMS.
+						</p>
+
+						<h3>Atributo href (o URL de Recurso Online)</h3>
+						<p>
+						Se recomienda completar este atributo con la URL del servidor según lo especifica OGC.
+						La minima URL (o prefijo de URL) a la cual se le agregan parámetros adicionales para poder
+						construir una operación WMS válida.
+						</p>
+						<p>
+						Un prefijo de URL se define como una cadena de texto
+						que incluye protocolo, nombre del host, número de puerto (opcional), path, un signo de pregunta
+						<code>?</code>, y opcionalmente, uno o más parámetros específicos para cada servidor terminando
+						en un ampersand <code>&amp;</code>. De esta manera, un cliente WMS agrega los parámetros necesarios
+						para un pedido WMS como pares de nombre/valor en la forma <code>name=value&</code>. La URL
+						resultante <strong>deberá</strong> se válida de acuerdo al estándar de HTTP CGI, que demanda
+						la presencia de un <code>?</code> antes de la secuencia de parámetros del pedido y el <code>&amp;</code>
+						entre cada parámetro.
 						</p>
 
 						<h2>Acerca del puerto 80 del Servidor</h2>
@@ -436,7 +466,7 @@
 						mensaje descriptivo del error devuelto en formato de imagen y no de texto.
 						</p>
 					</section>
-					<section id="capas">
+					<section id="capas" >
 						<div class="page-header">
 							<h1>Capas publicadas en los servidores WMS de IDERA</h1>
 						</div>

@@ -1,3 +1,10 @@
+/**
+ * Las URLs están normalizadas según específica OGC en el documento :
+ * http://portal.opengeospatial.org/files/?artifact_id=1081&version=1&format=pdf
+ * en la sección 6.2.2.
+ *
+ * Es decir cada URL es lo que debería ir en el campo URL de Recurso Online de cada servidor
+ */
 var sources = {
 		ign: {
 			title:"Instituto Geográfico Nacional",
@@ -7,7 +14,7 @@ var sources = {
 		indec: {
 			name:'chuu',
 			title: "Instituto Nacional de Estadísticas y Censos",
-			url: "http://200.51.91.231/cgi-bin/mapserv?program=/cgibin/mapserv&map=/prosiga/INDEC_WMS_Poblacion.map&SERVICE=WMS&Version=1.1.1&REQUEST=GetCapabilities",
+			url: "http://200.51.91.231/cgi-bin/mapserv?program=/cgibin/mapserv&map=/prosiga/INDEC_WMS_Poblacion.map&",
 		},
 		mapaeducativo: {
 			title: "Programa Nacional Mapa Educativo",
@@ -19,15 +26,15 @@ var sources = {
 		},
 		se: {
 			title: "Secretaría de Energía",
-			url: "http://sig.se.gob.ar/cgi-bin/mapserv6?map=/var/www/html/visor/geofiles/map/mapase.map",
+			url: "http://sig.se.gob.ar/cgi-bin/mapserv6?map=/var/www/html/visor/geofiles/map/mapase.map&",
 		},
 		arba: {
 			title: "ARBA",
-			url: "http://cartoservices.arba.gov.ar/geoserver/wms?service=WMS&request=getcapabilities",
+			url: "http://cartoservices.arba.gov.ar/geoserver/wms?",
 		},
 		mapaescolar: {
 			title: "Educación (Mapa Escolar)",
-			url: "http://190.210.101.129/cgi-bin/mapaescolar",
+			url: "http://190.210.101.129/cgi-bin/mapaescolar?",
 		},
 		urbasig: {
 			title: "Dirección Provincial de Ordenamiento Urbano y Territorial (Subsecretaria de Gobierno, Ministerio de Gobierno (urBAsig))",
@@ -35,19 +42,19 @@ var sources = {
 		},
 		hidraulica: {
 			title: "Dirección de Hidráulica (Ministerio de Infraestructura)",
-			url: "http://www.mosp.gba.gov.ar/wms_hidraulica/cgi-bin/mapserv.exe?map=/ms4w/apps/m/wms.map",
+			url: "http://www.mosp.gba.gov.ar/wms_hidraulica/cgi-bin/mapserv.exe?map=/ms4w/apps/m/wms.map&",
 		},
 		etisigchaco: {
 			title: "ETISIG CHACO",
-			url: "http://etisig.siup.gov.ar/mapasetisig.map",
+			url: "http://etisig.siup.gov.ar/mapasetisig.map?",
 		},
 		ideformosa: {
 			title: "IDE FORMOSA",
-			url: "http://idef.formosa.gob.ar/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities",
+			url: "http://idef.formosa.gob.ar/geoserver/ows?service=wms&",
 		},
 		etisigcatamarca: {
 			title: "ETISIG CATAMARCA",
-			url: "http://www.atlas.catamarca.gov.ar:8080/cgi-bin/wms_acat?service=WMS&version=1.1.1&request=GetCapabilities",
+			url: "http://www.atlas.catamarca.gov.ar:8080/cgi-bin/wms_acat?",
 		},
 		idesantacruz: {
 			title: "IDE SANTA CRUZ",
@@ -55,15 +62,15 @@ var sources = {
 		},
 		idesantafe: {
 			title: "IDE SANTA FE",
-			url: "http://www.idesf.santafe.gov.ar/cgi-bin/idesf?service=WMS&version=1.1.1&request=GetCapabilities",
+			url: "http://www.idesf.santafe.gov.ar/cgi-bin/idesf?",
 		},
 		idetucuman: {
 			title: "IDET TUCUMÁN",
-			url: "http://central.tucuman.gov.ar:8180/cgi-bin/wms_idet",
+			url: "http://central.tucuman.gov.ar:8180/cgi-bin/wms_idet?",
 		},
 		rosario: {
 			title: "Municipalidad de Rosario",
-			url: "http://www.rosario.gov.ar/wms/planobase",
+			url: "http://www.rosario.gov.ar/wms/planobase?",
 		}
 
   };

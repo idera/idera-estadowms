@@ -36,6 +36,29 @@ function Log( texto )
 	}
 }
 
+function fallo(idSource, mensaje) 
+{
+	var colspan = $('#estadoAtributos tr:first td').length -1;
+	$('#estadoAtributos .estadoAtributos_' + idSource + ' .cargando')
+	.attr('colspan', colspan )
+	.addClass('fail')
+	.text( mensaje );
+
+	$('#estadoSoporteDeFormatos .estadoSoporteDeFormatos_' + idSource + ' .cargando')
+	.attr('colspan', colspan )
+	.addClass('fail')
+	.text( mensaje );
+}
+
+function esHREFValida(href, urlCapabilities)
+{
+
+	if (href == urlCapabilities) {
+		return true;
+	}
+	return false;
+}
+
 function init()
 	
 {
@@ -44,10 +67,15 @@ function init()
 		return "/mapa/proxy/?url=" + encodeURIComponent(url);
     };
 	for (s in sources) {
-		var $tr = $('<tr id="'+ s + '"></tr>');
-		$tr.append('<td style="background-color:black;color:white;font-size:1.5em" class="title">' + sources[s].title +'</td>');
-		$tr.append('<td colspan=6 class="cargando"><img style="height:50px" alt="Cargabdi..." src="http://i.imgur.com/6RMhx.gif"</td>');
-		$('#servidores').append($tr);
+		var $tr = $('<tr class="estadoAtributos_'+ s + '"></tr>');
+		$tr.append('<td style="background-color:black;color:white;font-size:1em" class="title">' + sources[s].title +'</td>');
+		$tr.append('<td colspan=6 class="cargando"><img style="height:50px" alt="Cargando..." src="http://i.imgur.com/6RMhx.gif"</td>');
+		$('#estadoAtributos').append($tr);
+
+		var $tr = $('<tr class="estadoSoporteDeFormatos_'+ s + '"></tr>');
+		$tr.append('<td style="background-color:black;color:white;font-size:1em" class="title">' + sources[s].title +'</td>');
+		$tr.append('<td colspan=6 class="cargando"><img style="height:50px" alt="Cargando..." src="http://i.imgur.com/6RMhx.gif"</td>');
+		$('#estadoSoporteDeFormatos').append($tr);
 	}
 	for ( s in sources ) {
 		estados[s]= {};
@@ -73,20 +101,25 @@ function go( idSource, source )
             REQUEST: "GetCapabilities",
 			timestamp: Math.round((new Date()).getTime() / 1000)
         },
-        success: function(request) {
+        callback: function(request) {
+			if (request.status != 200) { 
+				var msj = 'El servidor ' + source.title + ' está caído';
+				fallo(idSource, msj);
+				return;
+			}
             var doc = request.responseXML;
             if (!doc || !doc.documentElement) {
                 doc = request.responseText;
             }
 
             var capabilities = format.read(doc);  
-
+			Log(capabilities);
 			if (capabilities.error) {
-				var msj = 'El servidor ' + source.title + ' no devolvió el documento capabilities';
+				var msj = 'El servidor ' + source.title + ' no devolvió el documento capabilities correctamente';
 				fallo(idSource, msj);
 				return;
 			}
-			Log(capabilities);
+
 
 			diagnosticar(idSource, source, capabilities);
 			imprimir(idSource, capabilities.capability.layers);
@@ -101,23 +134,20 @@ function go( idSource, source )
 	
 }
 
-function fallo(idSource, mensaje) 
-{
-	$('#' + idSource + ' .cargando')
-	.attr('colspan', $('#ign td').length -1 )
-	.addClass('fail')
-	.text( mensaje );
-}
+
 
 function diagnosticar(idSource, source, capabilities)
 {
 	var capas = capabilities.capability.layers;
-	var $a1 = $('#' + idSource);
+
+	estadoSoporteDeFormatos
 
 	estados[idSource].wms = {};
 	estados[idSource].wms.title = capabilities.service.title;
 	estados[idSource].wms.nCapas = capas.length;
 	estados[idSource].wms.abstract = capabilities.service.abstract;
+	estados[idSource].wms.href = capabilities.service.href;
+	estados[idSource].wms.contacto = capabilities.service.contactInformation;
 
 	estados[idSource].wms.soporta = {};
 	estados[idSource].wms.puerto = 80;
@@ -142,6 +172,7 @@ function diagnosticar(idSource, source, capabilities)
 	for (var i=0; i< capabilities.capability.layers.length; i++)
 	{
 		var  l = capabilities.capability.layers[i];
+
 		if (l.srs['EPSG:900913'])	{
 			estados[idSource].wms.soporta.srs['EPSG:900913'] = true;
 		}
@@ -206,144 +237,161 @@ function imprimir(idSource, capas)
 
 
 			
-			var $a1 = $('#' + idSource);
-			$a1.find('.cargando').remove();
+	var $a1 = $('#estadoAtributos .estadoAtributos_' + idSource);
+	var $a2 = $('#estadoSoporteDeFormatos .estadoSoporteDeFormatos_' + idSource);
+	$a1.find('.cargando').remove();
+	$a2.find('.cargando').remove();
 
-			$a1.find('.title').append( '<br/><strong>(' + estados[idSource].wms.nCapas + ' capas)</strong>' );
-			$a1.append( '<td >'+ estados[idSource].wms.title +'</td>' );
-			
-			if ( estados[idSource].wms.abstract ) {
-				$a1.append( '<td rel="tooltip" title="' + estados[idSource].wms.abstract + '" class="ok">'+ resumen(estados[idSource].wms.abstract, 12) +'</td>' );
-			} else {
-				$a1.append( '<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Abstract del Servicio WMS" class="warning"> SIN DEFINIR EN EL SERVIDOR</td>' );
-			}
-			
+	$a1.find('.title').append( '<br/><strong>(' + estados[idSource].wms.nCapas + ' capas)</strong>' );
+	$a1.append( '<td >'+ estados[idSource].wms.title +'</td>' );
+	
+	if ( estados[idSource].wms.abstract ) {
+		$a1.append( '<td rel="tooltip" title="' + estados[idSource].wms.abstract + '" class="ok">'+ resumen(estados[idSource].wms.abstract, 12) +'</td>' );
+	} else {
+		$a1.append( '<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Abstract del Servicio WMS" class="fail"> SIN DEFINIR EN EL SERVIDOR</td>' );
+	}
+	
+	if ( estados[idSource].wms.contacto ) {
+		var contacto = estados[idSource].wms.contacto.email;
+		$a1.append('<td class="ok">' + contacto + '</td>');
+	} else {
+		$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca de los atributos de contato" class="fail">SIN DEFINIR EN EL SERVIDOR</td>');
+	}
 
-				var $b = $('<td></td>');
+	var $b = $('<td></td>');
+	$b.esBayer = true;
+	for ( e in estados[idSource].wms.soporta.srs ) {
+		var alias = e;
+		if ( e == 'EPSG:22183') {
+			alias = 'Gauss / POSGAR 94';
+		}
+		if ( estados[idSource].wms.soporta.srs[e] )	{
+			var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
+		} else {
+			var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los Sistemas de Referencia Espacial" class="label label-important">No soporta ' + alias + '</span><p/>');
+		}
+		$b.append($c);
+		$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.srs[e];
+	}
+	if ($b.esBayer) {
+		$b.addClass('ok');
+	} else {
+		$b.addClass('warning');
+	}
+	$a2.append( $b );
 
-				$b.esBayer = true;
-				for ( e in estados[idSource].wms.soporta.srs ) {
-					var alias = e;
-					if ( e == 'EPSG:22183') {
-						alias = 'Gauss / POSGAR 94';
-					}
-					if ( estados[idSource].wms.soporta.srs[e] )	{
-						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
-					} else {
-						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los Sistemas de Referencia Espacial" class="label label-important">No soporta ' + alias + '</span><p/>');
-					}
-					$b.append($c);
-					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.srs[e];
-				}
-				if ($b.esBayer) {
-					$b.addClass('ok');
-				} else {
-					$b.addClass('warning');
-				}
-				$a1.append( $b );
+	var $b = $('<td></td>');
+	$b.esBayer = true;
+	for ( e in estados[idSource].wms.soporta.infoFormats) {
+		var alias = e;
+		if ( e == 'application/vnd.ogc.gml' ) {
+			alias = 'GML 2'
+		} else if ( e == 'application/vnd.ogc.gml/3.1.1') {
 
-				var $b = $('<td></td>');
-				$b.esBayer = true;
-				for ( e in estados[idSource].wms.soporta.infoFormats) {
-					var alias = e;
-					if ( e == 'application/vnd.ogc.gml' ) {
-						alias = 'GML 2'
-					} else if ( e == 'application/vnd.ogc.gml/3.1.1') {
+			continue;
+			alias = 'GML 3';
+		}
+		if ( estados[idSource].wms.soporta.infoFormats[e] )	{
+			var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
+		} else {
+			var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de GetFeatureInfo" class="label label-important">No soporta ' + alias + '</span><p/>');
+		}
+		$b.append($c);
+		$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.infoFormats[e];
+	}
+	if ($b.esBayer) {
+		$b.addClass('ok');
+	} else {
+		$b.addClass('warning');
+	}
+	$a2.append( $b );
 
-						continue;
-						alias = 'GML 3';
-					}
-					if ( estados[idSource].wms.soporta.infoFormats[e] )	{
-						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
-					} else {
-						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de GetFeatureInfo" class="label label-important">No soporta ' + alias + '</span><p/>');
-					}
-					$b.append($c);
-					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.infoFormats[e];
-				}
-				if ($b.esBayer) {
-					$b.addClass('ok');
-				} else {
-					$b.addClass('warning');
-				}
-				$a1.append( $b );
-
-				var $b = $('<td></td>');
-				$b.esBayer = true;
-				for ( e in estados[idSource].wms.soporta.formats) {
-					var alias = e;
-					if ( e == 'image/png' ) {
-						alias = 'PNG'
-					} else if ( e == 'image/png8') {
-						alias = 'PNG8';
-					} else if ( e == 'image/jpeg') {
-						alias = 'JPEG';
-					} 
-					if ( estados[idSource].wms.soporta.formats[e] )	{
-						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
-					} else {
-						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de imagen" class="label label-important">No soporta ' + alias + '</span><p/>');
-					}
-					$b.append($c);
-					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.formats[e];
-				}
-				if ($b.esBayer) {
-					$b.addClass('ok');
-				} else {
-					$b.addClass('warning');
-				}
-				$a1.append( $b );
-
-
-   				var $b = $('<td></td>');
-				$b.esBayer = true;
-				for ( e in estados[idSource].wms.soporta.excepciones) {
-					var alias = e;
-   					if ( e == 'application/vnd.ogc.se_inimage' ) {
-						alias = 'Imagen'
-					} else if ( e == 'application/vnd.ogc.se_xml') {
-						alias = 'XML';
-					} 
-					if ( estados[idSource].wms.soporta.excepciones[e] )	{
-						var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
-					} else {
-						var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de excepciones" class="label label-important">No soporta ' + alias + '</span><p/>');
-					}
-					$b.append($c);
-					$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.excepciones[e];
-				}
-				if ($b.esBayer) {
-					$b.addClass('ok');
-				} else {
-					$b.addClass('warning');
-				}
-				$a1.append( $b );
+	var $b = $('<td></td>');
+	$b.esBayer = true;
+	for ( e in estados[idSource].wms.soporta.formats) {
+		var alias = e;
+		if ( e == 'image/png' ) {
+			alias = 'PNG'
+		} else if ( e == 'image/png8') {
+			alias = 'PNG8';
+		} else if ( e == 'image/jpeg') {
+			alias = 'JPEG';
+		} 
+		if ( estados[idSource].wms.soporta.formats[e] )	{
+			var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
+		} else {
+			var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de imagen" class="label label-important">No soporta ' + alias + '</span><p/>');
+		}
+		$b.append($c);
+		$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.formats[e];
+	}
+	if ($b.esBayer) {
+		$b.addClass('ok');
+	} else {
+		$b.addClass('warning');
+	}
+	$a2.append( $b );
 
 
-				if (estados[idSource].wms.puerto == '80') {
-					$a1.append('<td class="ok">' + estados[idSource].wms.puerto + '</td>');
-				} else {
-					$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del puerto del servicios WMS" class="fail">' + estados[idSource].wms.puerto + '</td>');
-				}
+	var $b = $('<td></td>');
+	$b.esBayer = true;
+	for ( e in estados[idSource].wms.soporta.excepciones) {
+		var alias = e;
+		if ( e == 'application/vnd.ogc.se_inimage' ) {
+			alias = 'Imagen'
+		} else if ( e == 'application/vnd.ogc.se_xml') {
+			alias = 'XML';
+		} 
+		if ( estados[idSource].wms.soporta.excepciones[e] )	{
+			var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
+		} else {
+			var $c = $('<span rel="tooltip" title="Ver recomendaciones acerca de los formatos de excepciones" class="label label-important">No soporta ' + alias + '</span><p/>');
+		}
+		$b.append($c);
+		$b.esBayer = $b.esBayer && estados[idSource].wms.soporta.excepciones[e];
+	}
+	if ($b.esBayer) {
+		$b.addClass('ok');
+	} else {
+		$b.addClass('warning');
+	}
+	$a2.append( $b );
 
-			$('#servidores td').tooltip();
-			$('span').tooltip();
 
-			// tabla de capas
-			var idRow = 'capas_' + idSource;
-			//Agrego una fila al menú
-			$('#menu').append('<li><a href="#'+idRow+'"><i class="icon-chevron-right"></i> Capas en '+idSource+'</a></li>');
-			// Agrego th para principio de capas de cada servidor
-			$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10" style="background-color:black !important;color:white" > <h5>Capas de <em>' + estados[idSource].wms.title  + '</em></h5></td></tr>') );			
+	if (estados[idSource].wms.puerto == '80') {
+		$a1.append('<td class="ok">' + estados[idSource].wms.puerto + '</td>');
+	} else {
+		$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del puerto del servicios WMS" class="fail">' + estados[idSource].wms.puerto + '</td>');
+	}
+	
+	if (! estados[idSource].wms.href) {
+		$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS href" class="fail">SIN DEFINIR EN EL SERVIDOR</td>');	
+	} else if ( esHREFValida(estados[idSource].wms.href, sources[idSource].url)  ) {
+		$a1.append('<td class="ok">' + estados[idSource].wms.href  + '</td>');
+	} else {
+		$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS href" class="warning">' + estados[idSource].wms.href  + '</td>');
+	}
 
-			for(var i=0; i<capas.length; i++) {
+
+	$('#estadoAtributos td').tooltip();
+	$('#estadoSoporteDeFormatos td').tooltip();
+	$('span').tooltip();
+
+	// tabla de capas
+	var idRow = 'capas_' + idSource;
+	//Agrego una fila al menú
+	$('#menu').append('<li><a href="#'+idRow+'"><i class="icon-chevron-right"></i> Capas en '+idSource+'</a></li>');
+	// Agrego th para principio de capas de cada servidor
+	$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10" style="background-color:black !important;color:white" > <h5>Capas de <em>' + estados[idSource].wms.title  + '</em></h5></td></tr>') );			
+
+	for(var i=0; i<capas.length; i++) {
+
+		if(capas[i].name && capas[i].name!="") {
+			var l = capas[i];
+
+			imprimirCapa( l );
 		
-				if(capas[i].name && capas[i].name!="") {
-					var l = capas[i];
-
-					imprimirCapa( l );
-				
-			}
+	}
 
 			
 
