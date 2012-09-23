@@ -249,10 +249,12 @@
 					</ul>
 				</div>
 				<div class="span9">
-					<section id="estado">
-						<div class="page-header">
-							<h1>Estado general de los servicios WMS</h1>
-						</div>
+<div id="myCarousel" class="carousel slide">
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+
+					<section class="active item" 
+					id="estado">
 						<div class="well">
 						<p>
 						<h4>Referencia</h4>
@@ -278,6 +280,8 @@
 							<tbody id="estadoAtributos">
 							</tbody>
 						</table>
+					</section>
+					<section class="item" id="formatos">
 						<div class="page-header">
 							<h2>Soporte a formatos de los servicios WMS</h2>
 						</div>
@@ -295,7 +299,7 @@
 							</tbody>
 						</table>
 					</section>
-					<section id="recomendaciones">
+					<section class="item" id="recomendaciones">
 						<div class="page-header">
 							<h1>Recomendaciones para normalizar los servidores WMS</h1>
 						</div>
@@ -466,7 +470,8 @@
 						mensaje descriptivo del error devuelto en formato de imagen y no de texto.
 						</p>
 					</section>
-					<section id="capas" >
+
+					<section class="item" id="capas" >
 						<div class="page-header">
 							<h1>Capas publicadas en los servidores WMS de IDERA</h1>
 						</div>
@@ -486,7 +491,11 @@
 							</tbody>
 						</table>
 					</section>
-
+  </div>
+  <!-- Carousel nav -->
+  <a class="carousel-control left" style="position:fixed;top:20px;" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" style="position:fixed;top:20px" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
 				</div> <!--span-->
 			</div>	<!-- row -->
 		</div> <!--container-->

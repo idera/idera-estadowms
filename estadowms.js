@@ -122,6 +122,8 @@ function go( idSource, source )
 
 
 			diagnosticar(idSource, source, capabilities);
+			$('#myCarousel').carousel();
+			$('#myCarousel').carousel('pause');
 			imprimir(idSource, capabilities.capability.layers);
 
         }, 
@@ -168,74 +170,100 @@ function diagnosticar(idSource, source, capabilities)
 	estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_inimage'] = false;
 	estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_xml'] = false;
 
-
-	for (var i=0; i< capabilities.capability.layers.length; i++)
+	function soportaSRS( srs, capas )
 	{
-		var  l = capabilities.capability.layers[i];
+		for (var i=0; i< capas.length; i++) {
+			var  l = capas[i];
 
-		if (l.srs['EPSG:900913'])	{
-			estados[idSource].wms.soporta.srs['EPSG:900913'] = true;
-		}
-		if (l.srs['EPSG:3857'] )	{
-			estados[idSource].wms.soporta.srs['EPSG:3857'] = true;
-		}
-		if (l.srs['EPSG:4326'] )	{
-			estados[idSource].wms.soporta.srs['EPSG:4326'] = true;
-		}
-		if (l.srs['EPSG:22183'] )	{
-			estados[idSource].wms.soporta.srs['EPSG:22183'] = true;
-		}
-
-		for (var j=0; j< l.infoFormats.length ; j++) {
-			if ( l.infoFormats[j] == 'text/html') {
-				estados[idSource].wms.soporta.infoFormats['text/html'] = true;
-			}
-			if ( l.infoFormats[j] == 'application/vnd.ogc.gml') {
-				estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml'] = true;
-			}
-
-			if ( l.infoFormats[j] == 'application/vnd.ogc.gml/3.1.1') {
-				estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = true;
+			if (l.srs[ srs ])	{
+				return true;
 			}
 		}
+		return false;
+	}
 
-		for (var j=0; j< capabilities.capability.exception.formats.length ; j++) {
-			if ( capabilities.capability.exception.formats[j] == 'application/vnd.ogc.se_inimage') {
-				estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_inimage'] = true;
-			}
-			if ( capabilities.capability.exception.formats[j] == 'application/vnd.ogc.se_xml') {
-				estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_xml'] = true;
-			}
+	function soportaInfoFormat( mime, capas )
+	{
+		for (var i=0; i< capas.length; i++) {
+			var  l = capas[i];
 
-		}
-
-		for (var j=0; j< l.formats.length ; j++) {
-			if ( l.formats[j] == 'image/png') {
-				estados[idSource].wms.soporta.formats['image/png'] = true;
-			}
-			if ( l.formats[j] == 'image/png8') {
-				estados[idSource].wms.soporta.formats['image/png8'] = true;
-			}
-			if ( l.formats[j] == 'image/jpeg') {
-				estados[idSource].wms.soporta.formats['image/jpeg'] = true;
-			}
-			if ( l.formats[j] == 'image/jpeg') {
-				estados[idSource].wms.soporta.formats['image/jpeg'] = true;
+			for (var j=0; j< l.infoFormats.length ; j++) {
+				if ( l.infoFormats[j] == mime ) {
+					return true;
+				}
 			}
 		}
+		return false;
+	}
 
-		
-		estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
+	function soportaFormat( mime, capas )
+	{
+		for (var i=0; i< capas.length; i++) {
+			var  l = capas[i];
+
+			for (var j=0; j< l.formats.length ; j++) {
+				if ( l.formats[j] == mime ) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	if (soportaSRS( 'EPSG:900913' , capas )	) {
+		estados[idSource].wms.soporta.srs['EPSG:900913'] = true;
+	}
+	if (soportaSRS( 'EPSG:3857' , capas ) ) 	{
+		estados[idSource].wms.soporta.srs['EPSG:3857'] = true;
+	}
+	if (soportaSRS( 'EPSG:4326' , capas ) )	{
+		estados[idSource].wms.soporta.srs['EPSG:4326'] = true;
+	}
+	if (soportaSRS( 'EPSG:22183' , capas ) )	{
+		estados[idSource].wms.soporta.srs['EPSG:22183'] = true;
+	}
+
+	if ( soportaInfoFormat('text/html', capas) ) {
+		estados[idSource].wms.soporta.infoFormats['text/html'] = true;
+	}
+	if ( soportaInfoFormat('application/vnd.ogc.gml', capas) ) {
+		estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml'] = true;
+	}
+
+	if ( soportaInfoFormat('application/vnd.ogc.gml/3.1.1', capas) ) {
+		estados[idSource].wms.soporta.infoFormats['application/vnd.ogc.gml/3.1.1'] = true;
+	}
+
+	for (var j=0; j< capabilities.capability.exception.formats.length ; j++) {
+		if ( capabilities.capability.exception.formats[j] == 'application/vnd.ogc.se_inimage') {
+			estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_inimage'] = true;
+		}
+		if ( capabilities.capability.exception.formats[j] == 'application/vnd.ogc.se_xml') {
+			estados[idSource].wms.soporta.excepciones['application/vnd.ogc.se_xml'] = true;
+		}
 
 	}
 
+	if ( soportaFormat('image/png', capas ) ) {
+		estados[idSource].wms.soporta.formats['image/png'] = true;
+	}
+	if ( soportaFormat('image/png8', capas ) ) {
+		estados[idSource].wms.soporta.formats['image/png8'] = true;
+	}
+	if ( soportaFormat('image/jpeg', capas ) ) {
+		estados[idSource].wms.soporta.formats['image/jpeg'] = true;
+	}
+	if ( soportaFormat('image/jpeg', capas ) ) {
+		estados[idSource].wms.soporta.formats['image/jpeg'] = true;
+	}
 
+	estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
+
+	
 }
 
 function imprimir(idSource, capas)
 {
-
-
 			
 	var $a1 = $('#estadoAtributos .estadoAtributos_' + idSource);
 	var $a2 = $('#estadoSoporteDeFormatos .estadoSoporteDeFormatos_' + idSource);
