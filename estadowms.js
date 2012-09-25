@@ -4,6 +4,7 @@
 
 var format;
 
+var capabilities = {};
 var estados = {};
 
 var temasPerfilMetadatos = {
@@ -112,19 +113,17 @@ function go( idSource, source )
                 doc = request.responseText;
             }
 
-            var capabilities = format.read(doc);  
-			Log(capabilities);
-			if (capabilities.error) {
+			capabilities[idSource] = format.read(doc);  
+			Log( capabilities[idSource] );
+			if (capabilities[idSource].error) {
 				var msj = 'El servidor ' + source.title + ' no devolvió el documento capabilities correctamente';
 				fallo(idSource, msj);
 				return;
 			}
 
 
-			diagnosticar(idSource, source, capabilities);
-			$('#myCarousel').carousel();
-			$('#myCarousel').carousel('pause');
-			imprimir(idSource, capabilities.capability.layers);
+			diagnosticar(idSource, source, capabilities[idSource]);
+			imprimir(idSource, capabilities[idSource].capability.layers);
 
         }, 
         failure: function() {            
@@ -405,6 +404,11 @@ function imprimir(idSource, capas)
 	$('#estadoSoporteDeFormatos td').tooltip();
 	$('span').tooltip();
 
+	imprimirCapas(idSource, capas);
+}
+
+function imprimirCapas(idSource, capas)
+{
 	// tabla de capas
 	var idRow = 'capas_' + idSource;
 	//Agrego una fila al menú
@@ -413,18 +417,11 @@ function imprimir(idSource, capas)
 	$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10" style="background-color:black !important;color:white" > <h5>Capas de <em>' + estados[idSource].wms.title  + '</em></h5></td></tr>') );			
 
 	for(var i=0; i<capas.length; i++) {
-
 		if(capas[i].name && capas[i].name!="") {
 			var l = capas[i];
-
 			imprimirCapa( l );
-		
+		}
 	}
-
-			
-
-	}
-
 }
 
 
