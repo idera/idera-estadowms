@@ -1,5 +1,7 @@
 /**
- *
+ * 
+ * Código berreta en https://github.com/oskosk/idera-estadowms
+ * 
  */
 
 var format;
