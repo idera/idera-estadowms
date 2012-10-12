@@ -127,7 +127,7 @@ idera.estadowms = {};
 				}
 
 
-				diagnosticar(idSource, source, capabilities[idSource]);
+				diagnosticarServicioWMS(idSource, source, capabilities[idSource]);
 				imprimir(idSource, capabilities[idSource].capability.layers);
 
 			}, 
@@ -142,7 +142,7 @@ idera.estadowms = {};
 
 
 
-	function diagnosticar(idSource, source, capabilities)
+	function diagnosticarServicioWMS(idSource, source, capabilities)
 	{
 		var capas = capabilities.capability.layers;
 
