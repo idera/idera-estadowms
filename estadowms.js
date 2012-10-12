@@ -128,7 +128,7 @@ idera.estadowms = {};
 
 
 				diagnosticarServicioWMS(idSource, source, capabilities[idSource]);
-				imprimir(idSource, capabilities[idSource].capability.layers);
+				imprimirDiagnosticoDeServicioWMS(idSource, capabilities[idSource].capability.layers);
 
 			}, 
 			failure: function() {            
@@ -266,7 +266,7 @@ idera.estadowms = {};
 		
 	}
 
-	function imprimir(idSource, capas)
+	function imprimirDiagnosticoDeServicioWMS(idSource, capas)
 	{
 				
 		var $a1 = $('#estadoAtributos .estadoAtributos_' + idSource);
