@@ -50,7 +50,7 @@ var sources = {
 		},
 		ideformosa: {
 			title: "IDE FORMOSA",
-			url: "http://idef.formosa.gob.ar/geoserver/ows?service=wms&",
+			url: "http://idef.formosa.gob.ar/servicios/wms?",
 		},
 		etisigcatamarca: {
 			title: "ETISIG CATAMARCA",
@@ -65,8 +65,16 @@ var sources = {
 			url: "http://www.idesf.santafe.gov.ar/cgi-bin/idesf?",
 		},
 		idetucuman: {
-			title: "IDET TUCUMÁN",
-			url: "http://central.tucuman.gov.ar:8180/cgi-bin/wms_idet?",
+                        title: "IDET TUCUMÁN",
+                        url: "http://central.tucuman.gov.ar:8180/cgi-bin/wms_idet?",
+                },
+		rides1: {
+			title: "RIDES - Información Min. Des. Productivo",
+			url: "http://rides.producciontucuman.gov.ar/ArcGIS/services/Informacion_Productiva/mapserver/WMSServer?",
+		},	
+		rides2: {
+			title: "RIDES - Imágenes Min. Des. Productivo",
+			url: "http://rides.producciontucuman.gov.ar/ArcGIS/services/ImagenesMDP/mapserver/WMSServer?",
 		},
 		rosario: {
 			title: "Municipalidad de Rosario",
