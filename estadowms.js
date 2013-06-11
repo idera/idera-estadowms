@@ -119,7 +119,7 @@ idera.estadowms = {};
 				}
 
 				capabilities[idSource] = format.read(doc);  
-				Log( capabilities[idSource] );
+				//Log( capabilities[idSource] );
 				if (capabilities[idSource].error) {
 					var msj = 'El servidor ' + source.title + ' no devolvió el documento capabilities correctamente';
 					fallo(idSource, msj);
@@ -418,8 +418,9 @@ idera.estadowms = {};
 		var idRow = 'capas_' + idSource;
 		//Agrego una fila al menú
 		$('#menu').append('<li><a href="#'+idRow+'"><i class="icon-chevron-right"></i> Capas en '+idSource+'</a></li>');
+		$('#menucapas').append('<li><a href="#'+idRow+'">Capas en '+idSource+'</a></li>');
 		// Agrego th para principio de capas de cada servidor
-		$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10" style="background-color:black !important;color:white" > <h5>Capas de <em>' + estados[idSource].wms.title  + '</em></h5></td></tr>') );			
+		$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10"  > <h3>Capas de <em>' + estados[idSource].wms.title  + '</em></h3></td></tr>') );			
 
 		for(var i=0; i<capas.length; i++) {
 			if(capas[i].name && capas[i].name!="") {

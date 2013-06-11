@@ -6,15 +6,17 @@
         <title>Estado de los servidores WMS de IDERA</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="http://ckrack.github.io/fbootstrapp/bootstrap.css" type="text/css"/>
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css" type="text/css"/>
-		<link rel="stylesheet" href="docs.css" type="text/css"/>
-        <script src="OpenLayers.js"></script>
+    <script src="OpenLayers.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-
-        <script src="servidores.js"></script>        
-        <script src="URI.min.js"></script>        
-        <script src="estadowms.js"></script>        
+    <script src="servidores.js"></script>        
+    <script src="URI.min.js"></script>        
+    <script src="estadowms.js"></script>        
 		<style type="text/css">
+			body {
+				margin-top:38px;
+			}
 		section > .page-header, section > .lead {
 		color: #5A5A5A;
 		}
@@ -42,18 +44,14 @@
 		}
 
 
-		.table td, .table th {
-			line-height:1em;
-		}
+
 
 		#rows td {
 			max-width:20px;
 			word-wrap:break-word;
 		}
 
-		.label {
-			font-size:0.8em;
-		}
+
 		
 		.footer {
 			padding: 70px 0;
@@ -72,27 +70,33 @@
 		</style>
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar" onload="idera.estadowms.init();">
-		<header class="jumbotron subhead" id="overview">
-		  <div class="container">
-			<h1>Servicios WMS IDERA</h1>
-			<p class="lead">En este panel se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
-		  </div>
-		</header>
+				<div class="topbar" data-scrollspy="scrollspy">
+		      <div class="topbar-inner">
+		        <div class="container-fluid">
+		          <a class="brand" href="#">IDERA // Servicios WMS </a>
+		          <ul class="nav" >
+		            <li class="active"><a href="#estado">Estado de los servidores</a></li>
+		            <li><a href="#formatos">Formatos</a></li>
+		            <li><a href="#recomendaciones">Recomendaciones</a></li>
+								<li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Capas publicadas en IDERA</a>
+                  <ul class="dropdown-menu" id="menucapas">
+                  </ul>
+                </li>		            
+		          </ul>
+		        </div>
+		      </div>
+		    </div>    	
+
         <div class="container-fluid">
-			<div class="row-fluid">
-
-				<div class="span3 bs-docs-sidebar">
-					<ul id="menu" class="nav nav-list bs-docs-sidenav">	
-					  <li><a href="#estado"><i class="icon-chevron-right"></i>  Estado de los atributos WMS de los servidores WMS</a></li>
-					  <li><a href="#estadoSoporteDeFormatos"><i class="icon-chevron-right"></i>  Soporte a formatos de los servicios WMS WMS</a></li>
-					  <li><a href="#recomendaciones"><i class="icon-chevron-right"></i>  Recomendaciones para normalizar los servicios WMS</a></li>
-					</ul>
-				</div>
-				<div class="span9">
-
+        	<div class="hero-unit" style="background-color:white">
+        		<img src="http://www.idera.gob.ar/portal/sites/default/files/styles/large/public/field/image/dave.gif"/>
+        		<p class="lead">En este panel se puede ver en tiempo real el estado de normalización de los servicios WMS.</p>
+        	</div>
+					
 					<section class="active item" 
 					id="estado">
-						<div class="well">
+						<div >
 						<p>
 						<h4>Referencia</h4>
 						<div class="ref ok">&nbsp;</div> Estado óptimo para la interoperabilidad.<br/>
@@ -101,11 +105,11 @@
 						</p>
 						</div>
 						<div class="page-header">
-							<h2>Estado de los atributos WMS de los servidores</h2>
+							<h2>Atributos de los servidores WMS</h2>
 						</div>
-						<table style="font-size:0.8em" class="table  table-bordered table-condensed">
+						<table  class="table  table-bordered table-condensed">
 							<thead>
-								<tr style="background-color:black;color:white">
+								<tr >
 									<th>Organismo</th>
 									<th>Atributo WMS Title</th>
 									<th>Atributo WMS Abstract</th>
@@ -120,11 +124,11 @@
 					</section>
 					<section class="item" id="formatos">
 						<div class="page-header">
-							<h2>Soporte a formatos de los servicios WMS</h2>
+							<h2>Formatos soportados por los servicios WMS</h2>
 						</div>
-						<table style="font-size:0.8em" class="table  table-bordered table-condensed">
+						<table id="tablaFormatos" class="table  table-bordered table-condensed">
 							<thead>
-								<tr style="background-color:black;color:white">
+								<tr>
 									<th>Organismo</th>
 									<th>Soporte de Sistemas de Referencia Espacial</th>
 									<th>Soporte a formatos de respuesta GetFeatureInfo</th>
@@ -313,9 +317,9 @@
 							<h1>Capas publicadas en los servidores WMS de IDERA</h1>
 						</div>
 
-						<table style="font-size:0.8em" class="table table-bordered table-condensed">
+						<table  class="table table-bordered table-condensed">
 							<thead>
-								<tr style="background-color:black;color:white">
+								<tr >
 									<th>Atributo WMS Title</th>
 									<th>Atributo WMS Name</th>
 									<th>Atributo WMS Abstract</th>
@@ -329,8 +333,6 @@
 						</table>
 					</section>
 
-				</div> <!--span-->
-			</div>	<!-- row -->
 		</div> <!--container-->
 		<footer class="footer">
 			<div class="container" style="width:80%">
