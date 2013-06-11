@@ -6,41 +6,41 @@
  * Es decir cada URL es lo que debería ir en el campo URL de Recurso Online de cada servidor
  */
 var sources = {
-		ign: {
+		IGN: {
 			title:"Instituto Geográfico Nacional",
 			url: "http://wms.ign.gob.ar/geoserver/wms?",
 			ptype: "gxp_wmscsource"
 		},
-		indec: {
+		INDEC: {
 			name:'chuu',
 			title: "Instituto Nacional de Estadísticas y Censos",
 			url: "http://200.51.91.231/cgi-bin/mapserv?program=/cgibin/mapserv&map=/prosiga/INDEC_WMS_Poblacion.map&",
 		},
-		mapaeducativo: {
+		mapaEducativo: {
 			title: "Programa Nacional Mapa Educativo",
 			url: "http://www.mapaeducativo.edu.ar/geoserver/ogc/wms?",
 		},
-		inta: {
+		INTA: {
 			title: "Instituto Nacional de Tecnología Agropecuaria",
 			url: "http://geointa.inta.gov.ar/geoserver/wms?",
 		},
-		se: {
+		secretariaDeEnergia: {
 			title: "Secretaría de Energía",
 			url: "http://sig.se.gob.ar/cgi-bin/mapserv6?map=/var/www/html/visor/geofiles/map/mapase.map&",
 		},
-		arba: {
+		ARBA: {
 			title: "ARBA",
 			url: "http://cartoservices.arba.gov.ar/geoserver/wms?",
 		},
-		mapaescolar: {
+		mapaEscolar: {
 			title: "Educación (Mapa Escolar)",
 			url: "http://190.210.101.129/cgi-bin/mapaescolar?",
 		},
-		urbasig: {
+		URBASIG: {
 			title: "Dirección Provincial de Ordenamiento Urbano y Territorial (Subsecretaria de Gobierno, Ministerio de Gobierno (urBAsig))",
 			url: "http://www.mosp.gba.gov.ar/webmapping/cgi-bin/urbasig?",
 		},
-		hidraulica: {
+		direccionDeHidraulica: {
 			title: "Dirección de Hidráulica (Ministerio de Infraestructura)",
 			url: "http://www.mosp.gba.gov.ar/wms_hidraulica/cgi-bin/mapserv.exe?map=/ms4w/apps/m/wms.map&",
 		},
@@ -52,13 +52,17 @@ var sources = {
 			title: "IDE FORMOSA",
 			url: "http://idef.formosa.gob.ar/servicios/wms?",
 		},
+		ideformosa: {
+			title: "IDE Río Negro",
+			url: "http://ide.extranet.rionegro.gov.ar/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities&",
+		},		
 		etisigcatamarca: {
 			title: "ETISIG CATAMARCA",
 			url: "http://www.atlas.catamarca.gov.ar:8080/cgi-bin/wms_acat?",
 		},
 		idesantacruz: {
 			title: "IDE SANTA CRUZ",
-			url: "http://www.sitsantacruz.gov.ar:8080/geoserver/ows?",
+			url: "http://www.sitsantacruz.com.ar/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities&",
 		},
 		idesantafe: {
 			title: "IDE SANTA FE",
