@@ -46,7 +46,7 @@ var sources = {
 		},
 		etisigchaco: {
 			title: "ETISIG CHACO",
-			url: "http://etisig.siup.gov.ar/mapasetisig.map?",
+			url: "http://etisig.chaco.gov.ar/geoserver/IDEChaco/wms?",
 		},
 		ideformosa: {
 			title: "IDE FORMOSA",
