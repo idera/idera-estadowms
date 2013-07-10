@@ -52,9 +52,9 @@ var sources = {
 			title: "IDE FORMOSA",
 			url: "http://idef.formosa.gob.ar/servicios/wms?",
 		},
-		ideformosa: {
+		iderionegro: {
 			title: "IDE Río Negro",
-			url: "http://ide.extranet.rionegro.gov.ar/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities&",
+			url: "http://ide.extranet.rionegro.gov.ar/geoserver/wms?",
 		},		
 		etisigcatamarca: {
 			title: "ETISIG CATAMARCA",
@@ -62,7 +62,7 @@ var sources = {
 		},
 		idesantacruz: {
 			title: "IDE SANTA CRUZ",
-			url: "http://www.sitsantacruz.com.ar/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities&",
+			url: "http://www.sitsantacruz.com.ar/geoserver/wms?",
 		},
 		idesantafe: {
 			title: "IDE SANTA FE",
