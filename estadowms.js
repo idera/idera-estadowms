@@ -102,9 +102,9 @@ idera.estadowms = {};
 		OpenLayers.Request.GET({
 			url: source.url,
 			params: {
-				SERVICE: "WMS",
-				VERSION: "1.1.1",
-				REQUEST: "GetCapabilities",
+				// SERVICE: "WMS",
+				// VERSION: "1.1.1",
+				// REQUEST: "GetCapabilities",
 				timestamp: Math.round((new Date()).getTime() / 1000)
 			},
 			callback: function(request) {
