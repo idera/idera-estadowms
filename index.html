@@ -151,28 +151,28 @@
 
 						<h3>Atributo Title</h3>
 						<p>
-						Se recomienda completar este atributo a fin de que este texto sea descriptivo para quien
+						Se recomienda completar este atributo con el objeto de que su contenido sea descriptivo para quien
 						esté viendo el listado de servicios WMS en el visualizador de IDERA.
 						</p>
 
 						<h3>Atributo Abstract</h3>
 						<p>
-						Se recomienda completar este atributo a fin de que describa los datos provistos por el servicios WMS.
+						Se recomienda completar este atributo ya que describe los datos provistos por el servicios WMS.
 						</p>
 
 						<h3>Atributo href (o URL de Recurso Online)</h3>
 						<p>
 						Se recomienda completar este atributo con la URL del servidor según lo especifica OGC.
-						La minima URL (o prefijo de URL) a la cual se le agregan parámetros adicionales para poder
+						La mínima URL (o prefijo de URL) a la cual se le agregan parámetros adicionales para poder
 						construir una operación WMS válida.
 						</p>
 						<p>
 						Un prefijo de URL se define como una cadena de texto
 						que incluye protocolo, nombre del host, número de puerto (opcional), path, un signo de pregunta
-						<code>?</code>, y opcionalmente, uno o más parámetros específicos para cada servidor terminando
-						en un ampersand <code>&amp;</code>. De esta manera, un cliente WMS agrega los parámetros necesarios
+						(<code>?</code>), y opcionalmente, uno o más parámetros específicos para cada servidor utilizando como separador
+						un ampersand (<code>&amp;</code>). De esta manera, un cliente WMS agrega los parámetros necesarios
 						para un pedido WMS como pares de nombre/valor en la forma <code>name=value&</code>. La URL
-						resultante <strong>deberá</strong> se válida de acuerdo al estándar de HTTP CGI, que demanda
+						resultante <strong>deberá</strong> ser válida de acuerdo al estándar de HTTP CGI, que demanda
 						la presencia de un <code>?</code> antes de la secuencia de parámetros del pedido y el <code>&amp;</code>
 						entre cada parámetro.
 						</p>
@@ -180,9 +180,9 @@
 						<h2>Acerca del puerto 80 del Servidor</h2>
 
 						<p>
-						Es recomendable que el servicio WMS esté accesible a través del puerto 80 (el puerto estándar para la web)
-						a fin de que los usuarios que deseen consultar los servicios WMS no se vean imposibilitados por algún
-						proxy/firewall. Son muy comunes los proxies institucionales que solo permiten a los usuarios de la red local,
+						Es recomendable que el servicio WMS esté accesible a través del puerto 80 (el puerto estándar para la web). El 
+						habilitar este puerto permite que los usuarios que deseen consultar los servicios WMS no se vean imposibilitados por algún
+						proxy/firewall. Son muy comunes los proxies institucionales que sólo permiten a los usuarios de la red local,
 						el acceso a sitios o páginas en el puerto estándar de la web.
 						</p>
 
@@ -192,26 +192,26 @@
 						<p>
 						Se recomienda completar este atributo a fin de que este texto sea descriptivo de los datos que la capa contiene.
 						En general, el software de servidor suele completar automáticamente este atributo con el mismo valor del atributo name.
-						<strong>Se recomienda que estos dos valores difieran ya que el atributo nombre se utiliza como identificador único y el título
+						<strong>Se recomienda que estos dos valores difieran ya que el atributo name se utiliza como identificador único y el title
 						como descripción del identificador.</strong>
 						</p>
 
 						<h3>Atributo Abstract</h3>
 						<p>
-						Se recomienda completar este atributo a fin de que describa los datos y tipos de datos contenidos en esta capa.
+						Se recomienda completar este atributo a fin de que describa los datos y tipos de datos contenidos en la capa.
 						</p>
 
 						<h3>Atributo Keywords (Palabras clave)</h3>
 						<p>
-						Este campo no solo permite palabras individuales. Sino que cada keyword puede ser un término compuesto como por ejemplo <em>Aguas interiores</em>.
-						Se recomienda aprovechar este atributo para que contenga entre las keywords, por lo menos uno de los <em>temas</em> definidos por el perfil de metadatos de IDERA.
+						Este campo no sólo permite palabras individuales. Sino que cada keyword puede ser un término compuesto como por ejemplo <em>Aguas interiores</em>.
+						Se recomienda aprovechar este atributo para que contenga entre las keywords, por lo menos uno de los <em>temas</em> definidos por el perfil de metadatos de IDERA (Ver documento “Perfíl de Metadatos” en este mismo portal, en la página del grupo Metadatos).
 						Estos <em>temas</em> son <strong>Agricultura</strong>, <strong>Biota</strong>, <strong>Límites</strong>, <strong>Clima</strong>, <strong>Economía</strong>, <strong>Elevación</strong>, <strong>Medio ambiente</strong>, <strong>Información geocientífica</strong>, <strong>Salud</strong>, <strong>Coberturas Básicas</strong>, <strong>Inteligencia / Militar</strong>, <strong>Aguas interiores</strong>, <strong>Ubicación</strong>, <strong>Océanos</strong>, <strong>Planificación de catastro</strong>, <strong>Sociedad</strong>, <strong>Estructura</strong>, <strong>Transporte</strong>, <strong>Utilidades / Comunicaciones</strong>.<br/>
 						Se recomienda el comienzo de cada tema con la primer letra en mayúscula tal cual las define el perfil de metadatos.
 						</p>
 
 						<h3>Atributo Link a metadatos</h3>
 						<p>
-						Se recomienda que este campo contenga el link a un servicio de metadatos conforme a OGC que contenga los metadatos para el set
+						Se recomienda que en este campo se introduzca el link a un servicio de metadatos, conforme a OGC, que contenga los metadatos para el set
 						de datos contenidos en esta capa.
 						</p>
 
@@ -220,37 +220,36 @@
 
 						<h3>EPSG:4326</h3>
 						<p>
-						Este código es el código utilizado y reconocido por EPSG para representar datos geoespaciales
-						basado en un datum (elipsoide y marco de referencia) <a target="_blank" href="http://es.wikipedia.org/wiki/WGS84">WGS84</a> . En este sistema, la proyección
-						corresponde a una en la cual las coordenadas de un objeto en una imagen en sus ejes X e Y se corresponden
+						Este código es el utilizado y reconocido por EPSG para representar datos geoespaciales
+						basado en un datum (elipsoide y marco de referencia) <a target="_blank" href="http://es.wikipedia.org/wiki/WGS84">WGS84</a> . En este sistema, las coordenadas de un objeto en una imagen en sus ejes X e Y se corresponden
 						con los valores de las coordenadas longitud y latitud de los objetos geográficos, respectivamente.
 						</p>
 						<h3>EPSG:3857</h3>
 						<p>
-						Este código es el código utilizado y reconocido por EPSG para representar el sistema de referencia espacial utilizado por Google Maps,
+						Este código es el utilizado y reconocido por EPSG para representar el sistema de referencia espacial utilizado por Google Maps,
 						Bing Maps, Yahoo Maps, OpenStreetMap, ESRI Web Maps  y demás mapas web populares. 
-						Consiste en una proyección de Mercator y se vale de una esfera auxiliiar para la proyección
-						aunque está basado en un datum igual al definido por el WGS84 (o ITRF05).<br/>
+						Utiliza una proyección de Mercator y se vale de una esfera auxiliiar cuyo datum es igual al definido por el WGS84 (o ITRF05).
+						<br/>
 						<div class="alert alert-info">Soportar este Sistema de Referencia espacial ofrece alta compatilibidad con servicios de mapas a nivel internacional debido
 						a su uso tan común</div>
 						</p>
 
 						<h3>EPSG:900913</h3>
 						<p>
-						Este código es el que una gran cantidad de software geoespacial (Openlayers, Mapserver, Geoserver, etc) utilizaban
+						Este código es el que utilizaba una gran cantidad de software geoespacial (OpenLayers, MapServer, GeoServer, etc) utilizaban
 						para representar el sistema de referencia espacial
 						de Google Maps, Bing Maps, Yahoo Maps, OpenStreetMap, ESRI Web Maps
 						y demás mapas web populares hasta que EPSG la reconoció entre sus datos y le asignó el código
 						<strong>EPSG:3857</strong> para definirla.
 						<div class="alert alert-info">Soportar este Sistema de Referencia espacial ofrece alta compatilibidad con servicios de mapas a nivel internacional debido
-						a su uso tan común</div>
+						a su uso tan difundido</div>
 						<p>
 
 						<h3>Gauss / POSGAR 94</h3>
 						<p>
 						Esta denominación hace referencia a la proyección Gauss utilizando el marco de referencia POSGAR 94,
-						que corresponde a los códigos EPSG: 22181, 22182, 22183, 22184, 22185, 22186 y 22187, respectivamente,
-						para las fajas 1 a 7 a fin de representar el territorio nacional en sus correctas proporciones.
+						que corresponde a los códigos EPSG: 22181, 22182, 22183, 22184, 22185, 22186 y 22187 
+						para las fajas 1 a 7 respectivamente, a fin de representar el territorio nacional en sus correctas proporciones.
 						<p>
 
 						<div class="alert alert-error">Soportar este Sistema de Referencia espacial nos permite proyectar todos los datos de la IDE
@@ -262,22 +261,22 @@
 
 						<h3>text/html</h3>
 						<p>
-						Este formato es el aprovechado por el visualizador de IDERA. Y permite representar la consulta puntual
-						acerca de un objeto geográfico sobre el globito que se despliega al acerca click sobre el mapa.
+						Este formato es el aprovechado por el visualizador de IDERA. Y permite representar una consulta puntual
+						acerca de un objeto geográfico sobre el globito que se despliega al hacer click sobre el mapa.
 						</p>						
 
 						<h3>GML 2</h3>
 						<p>
 						Este formato es un derivado de XML que soporta campos específicamente geoespaciales. Se utiliza a fines
 						de consultas programáticas por parte de un software cuya tarea no es necesariamente representar el resultado
-						para ser visto de manera gráfica aunque sí procesable por otrao sistema.
+						para ser visto de manera gráfica aunque sí procesable por otro sistema.
 						</p>						
 
 						<h2>Acerca de los Formatos soportados para las imágenes GetMap</h2>
 
 						<h3>image/jpeg</h3>
 						<p>
-						El formato JPEG de imágenes es el formato más comun utilizado para las capas de los servidores WMS.
+						El formato JPEG de imágenes es el formato más común utilizado para las capas de los servidores WMS.
 						Este formato no permite representar transparencias y por su alta compresión <strong>con pérdidas</strong>
 						es generalmente utilizado para datos que no tengan origen vectorial. JPEG utiliza 24 bits para representar
 						el color de cada píxel y define <strong>compresión con pérdidas regulable</strong> a la hora de almacenar la información
@@ -286,7 +285,7 @@
 
 						<h3>image/png</h3>
 						<p>
-						El formato PNG de imágenes permite representar transparencias y es el comunmente utilizado
+						El formato PNG de imágenes permite representar transparencias y es el comúnmente utilizado
 						para las capas superpuestas sobre una capa base. Este formato utiliza 24 bits para representar
 						el color de cada pixel y define <strong>compresión sin pérdidas</strong> a la hora de almacenar la información
 						de la imagen.
@@ -294,14 +293,14 @@
 
 						<h3>image/png8</h3>
 						<p>
-						Esta variación del formato PNG permite archivos PNG de menor tamaño (en términos de bytes) ya que
-						en lugar de usar 24 bits para representar el color de cada pixel, utiliza solo 8 para representar
-						el color de cada pixel pero según una paleta de colores no estándar que está guardada en el mismo
+						Esta variación del formato permite archivos PNG de menor tamaño (en términos de bytes) ya que
+						en lugar de usar 24 bits para representar el color de cada pixel, utiliza sólo 8 para representar
+						el color de cada pixel con una paleta de colores no estándar que está guardada en el mismo
 						archivo de imagen.
 						</p>
 						<p>
 						Esta paleta es generada por el servidor al momento de generar la imagen
-						y solo hace referencia a los colores que sí están siendo usados en la imagen y no a todos los colores
+						y sólo hace referencia a los colores que sí están siendo usados en la imagen y no a todos los colores
 						posibles del mundo real. Esto deviene en imágenes iguales a las logradas con PNG (salvo raras excepciones)
 						pero con un tamaño muy inferior al logrado por el formato PNG de 24 bits.
 						</p>
@@ -310,7 +309,7 @@
 
 						<h3>application/vnd.ogc.se_inimage</h3>
 						<p>
-						Se recomienda que el formato de excepción sea <code>application/vnd.ogc.se_inimage</code>. Es decir una 
+						Se recomienda que el formato de excepción sea <code>application/vnd.ogc.se_inimage</code>. Es decir un 
 						mensaje descriptivo del error devuelto en formato de imagen y no de texto.
 						</p>
 					</section>
