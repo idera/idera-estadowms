@@ -70,7 +70,7 @@ idera.estadowms = {};
 	{
 			
 		OpenLayers.ProxyHost= function(url) {
-			return "/mapa/proxy/?url=" + encodeURIComponent(url);
+			return "/cgi-bin/proxy.cgi?url=" + encodeURIComponent(url);
 		};
 		for (s in sources) {
 			var $tr = $('<tr class="estadoAtributos_'+ s + '"></tr>');
