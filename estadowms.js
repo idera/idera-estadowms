@@ -1,7 +1,7 @@
 /**
- * 
+ *
  * Código berreta en https://github.com/oskosk/idera-estadowms
- * 
+ *
  */
 
 var idera = idera || {};
@@ -36,14 +36,14 @@ idera.estadowms = {};
 
 	};
 
-	function Log( texto ) 
+	function Log( texto )
 	{
 		if (window.console) {
 			console.log( texto);
 		}
 	}
 
-	function fallo(idSource, mensaje) 
+	function fallo(idSource, mensaje)
 	{
 		var colspan = $('#estadoAtributos tr:first td').length -1;
 		$('#estadoAtributos .estadoAtributos_' + idSource + ' .cargando')
@@ -68,7 +68,7 @@ idera.estadowms = {};
 
 	idera.estadowms.init = function()
 	{
-			
+
 		OpenLayers.ProxyHost= function(url) {
 			return "/cgi-bin/proxy.cgi?url=" + encodeURIComponent(url);
 		};
@@ -98,17 +98,17 @@ idera.estadowms = {};
 		});
 
 		var xmlParser = new OpenLayers.Format.XML();
-		
+
 		OpenLayers.Request.GET({
 			url: source.url,
 			params: {
-				// SERVICE: "WMS",
-				// VERSION: "1.1.1",
-				// REQUEST: "GetCapabilities",
+				SERVICE: "WMS",
+				VERSION: "1.1.1",
+				REQUEST: "GetCapabilities",
 				timestamp: Math.round((new Date()).getTime() / 1000)
 			},
 			callback: function(request) {
-				if (request.status != 200) { 
+				if (request.status != 200) {
 					var msj = 'El servidor ' + source.title + ' está caído';
 					fallo(idSource, msj);
 					return;
@@ -118,7 +118,7 @@ idera.estadowms = {};
 					doc = request.responseText;
 				}
 
-				capabilities[idSource] = format.read(doc);  
+				capabilities[idSource] = format.read(doc);
 				//Log( capabilities[idSource] );
 				if (capabilities[idSource].error) {
 					var msj = 'El servidor ' + source.title + ' no devolvió el documento capabilities correctamente';
@@ -130,14 +130,14 @@ idera.estadowms = {};
 				diagnosticarServicioWMS(idSource, source, capabilities[idSource]);
 				imprimirDiagnosticoDeServicioWMS(idSource, capabilities[idSource].capability.layers);
 
-			}, 
-			failure: function() {            
+			},
+			failure: function() {
 				var msj = 'El servidor ' + source.title + ' no está accesible.';
 				fallo(idSource, msj);
 
 			}
 		});
-		
+
 	}
 
 
@@ -263,12 +263,12 @@ idera.estadowms = {};
 
 		estados[idSource].wms.puerto = URI(source.url).port() ? URI(source.url).port() : '80';
 
-		
+
 	}
 
 	function imprimirDiagnosticoDeServicioWMS(idSource, capas)
 	{
-				
+
 		var $a1 = $('#estadoAtributos .estadoAtributos_' + idSource);
 		var $a2 = $('#estadoSoporteDeFormatos .estadoSoporteDeFormatos_' + idSource);
 		$a1.find('.cargando').remove();
@@ -276,13 +276,13 @@ idera.estadowms = {};
 
 		$a1.find('.title').append( '<br/><strong>(' + estados[idSource].wms.nCapas + ' capas)</strong>' );
 		$a1.append( '<td >'+ estados[idSource].wms.title +'</td>' );
-		
+
 		if ( estados[idSource].wms.abstract ) {
 			$a1.append( '<td rel="tooltip" title="' + estados[idSource].wms.abstract + '" class="ok">'+ resumen(estados[idSource].wms.abstract, 12) +'</td>' );
 		} else {
 			$a1.append( '<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS Abstract del Servicio WMS" class="fail"> SIN DEFINIR EN EL SERVIDOR</td>' );
 		}
-		
+
 		if ( estados[idSource].wms.contacto ) {
 			var contacto = estados[idSource].wms.contacto.email;
 			$a1.append('<td class="ok">' + contacto + '</td>');
@@ -348,7 +348,7 @@ idera.estadowms = {};
 				alias = 'PNG8';
 			} else if ( e == 'image/jpeg') {
 				alias = 'JPEG';
-			} 
+			}
 			if ( estados[idSource].wms.soporta.formats[e] )	{
 				var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
 			} else {
@@ -373,7 +373,7 @@ idera.estadowms = {};
 				alias = 'Imagen'
 			} else if ( e == 'application/vnd.ogc.se_xml') {
 				alias = 'XML';
-			} 
+			}
 			if ( estados[idSource].wms.soporta.excepciones[e] )	{
 				var $c = $('<span class="label label-success">Soporta ' + alias + '</span><p/>');
 			} else {
@@ -395,9 +395,9 @@ idera.estadowms = {};
 		} else {
 			$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del puerto del servicios WMS" class="fail">' + estados[idSource].wms.puerto + '</td>');
 		}
-		
+
 		if (! estados[idSource].wms.href) {
-			$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS href" class="fail">SIN DEFINIR EN EL SERVIDOR</td>');	
+			$a1.append('<td rel="tooltip" title="Ver recomendaciones acerca del atributo WMS href" class="fail">SIN DEFINIR EN EL SERVIDOR</td>');
 		} else if ( esHREFValida(estados[idSource].wms.href, sources[idSource].url)  ) {
 			$a1.append('<td class="ok">' + estados[idSource].wms.href  + '</td>');
 		} else {
@@ -420,7 +420,7 @@ idera.estadowms = {};
 		$('#menu').append('<li><a href="#'+idRow+'"><i class="icon-chevron-right"></i> Capas en '+idSource+'</a></li>');
 		$('#menucapas').append('<li><a href="#'+idRow+'">Capas en '+idSource+'</a></li>');
 		// Agrego th para principio de capas de cada servidor
-		$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10"  > <h3>Capas de <em>' + estados[idSource].wms.title  + '</em></h3></td></tr>') );			
+		$('#rows').append( $('<tr id="'+ idRow +'"><td colspan="10"  > <h3>Capas de <em>' + estados[idSource].wms.title  + '</em></h3></td></tr>') );
 
 		for(var i=0; i<capas.length; i++) {
 			if(capas[i].name && capas[i].name!="") {
@@ -446,7 +446,7 @@ idera.estadowms = {};
 			$a.append('<td class="ok">' + l.title + '</td>');
 		}
 
-		
+
 		$a.append('<td>' + l.name + '</td>');
 
 		if (l.abstract) {
@@ -457,7 +457,7 @@ idera.estadowms = {};
 
 		kwString = '';
 		var usaKeywordsParaTemaPerfilMetadatos = false;
-		
+
 		for ( var j=0; j < l.keywords.length; j++ ) {
 			var kw = l.keywords[j];
 
@@ -473,7 +473,7 @@ idera.estadowms = {};
 		} else {
 			$a.append( '<td el="tooltip" title="Ver recomendaciones acerca del atributo WMS Palabra clave de las capas" class="warning">'+ kwString +'</td>' );
 		}
-		
+
 		metadataURLsString = '';
 		for (var j=0; j< l.metadataURLs.length ; j++ ) {
 			var metadataURL = l.metadataURLs[j].href;
