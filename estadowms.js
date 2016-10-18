@@ -433,9 +433,8 @@ idera.capas = {};
 				imprimirCapa( l );
 			}
 		}
+		scrollTo(idRow);
 	}
-
-
 
 	function imprimirCapa( l )
 	{
@@ -504,5 +503,12 @@ idera.capas = {};
 	function resumen( texto, cantPalabras)
 	{
 		return texto.split(' ').splice(0, cantPalabras).join(' ') + '...';
+	}
+
+	// desplaza pagina hasta el elemento especificado
+	function scrollTo( idElem ) {
+		$('html, body').animate({
+        scrollTop: $('#' + idElem).offset().top
+    }, 2000);
 	}
 })();
