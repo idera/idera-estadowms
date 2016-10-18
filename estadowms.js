@@ -6,6 +6,7 @@
 
 var idera = idera || {};
 idera.estadowms = {};
+idera.capas = {};
 
 (function (){
 	var format;
@@ -410,10 +411,12 @@ idera.estadowms = {};
 		$('span').tooltip();
 
 		idera.capas[idSource]=capas;
-		$a1.append('<td rel="tooltip" title="Comprobar recomendaciones en las capas del servicio" class=""> <a href="javascript: imprimirCapas('+idSource+');">Verificar Capas</td>');
+		$a1.append('<td rel="tooltip" title="Comprobar recomendaciones en las \
+			capas del servicio" class=""> <a href="javascript: \
+			idera.estadowms.imprimirCapas(\''+idSource+'\');">Verificar Capas</td>');
 	}
 
-	function imprimirCapas(idSource)
+	idera.estadowms.imprimirCapas = function(idSource)
 	{
 		capas=idera.capas[idSource];
 		// tabla de capas
