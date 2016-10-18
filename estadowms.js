@@ -6,6 +6,7 @@
 
 var idera = idera || {};
 idera.estadowms = {};
+idera.capas = {};
 
 (function (){
 	var format;
@@ -409,11 +410,15 @@ idera.estadowms = {};
 		$('#estadoSoporteDeFormatos td').tooltip();
 		$('span').tooltip();
 
-		imprimirCapas(idSource, capas);
+		idera.capas[idSource]=capas;
+		$a1.append('<td rel="tooltip" title="Comprobar recomendaciones en las \
+			capas del servicio" class=""> <a href="javascript: \
+			idera.estadowms.imprimirCapas(\''+idSource+'\');">Verificar Capas</td>');
 	}
 
-	function imprimirCapas(idSource, capas)
+	idera.estadowms.imprimirCapas = function(idSource)
 	{
+		capas=idera.capas[idSource];
 		// tabla de capas
 		var idRow = 'capas_' + idSource;
 		//Agrego una fila al menú
@@ -428,9 +433,8 @@ idera.estadowms = {};
 				imprimirCapa( l );
 			}
 		}
+		scrollTo(idRow);
 	}
-
-
 
 	function imprimirCapa( l )
 	{
@@ -499,5 +503,12 @@ idera.estadowms = {};
 	function resumen( texto, cantPalabras)
 	{
 		return texto.split(' ').splice(0, cantPalabras).join(' ') + '...';
+	}
+
+	// desplaza pagina hasta el elemento especificado
+	function scrollTo( idElem ) {
+		$('html, body').animate({
+        scrollTop: $('#' + idElem).offset().top
+    }, 2000);
 	}
 })();

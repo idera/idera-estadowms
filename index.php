@@ -124,6 +124,7 @@
 									<th>Información de contacto</th>
 									<th>Puerto 80 ?</th>
 									<th>Atributo href (URL del servicio)</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody id="estadoAtributos">
