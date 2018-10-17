@@ -19,7 +19,7 @@ El cuanto al cumplimiento de estándares, las revisiones son:
 
 ## Uso
 
-La aplicación puede ejecutarse de manera desatendida (toma los datos de los servidores WMS desde el recurso /mapa/sources.php?format=wms, el mismo se encuentra en https://github.com/idera/geoservicios) o de manera manual. **Actualmente solo funciona de manera manual**.
+La aplicación puede ejecutarse de manera desatendida (toma los datos de los servidores WMS desde el recurso /mapa/sources.php?format=wms, el mismo se encuentra en https://github.com/idera/geoservicios) o de manera manual.
 
 Si se desea utilizar de manera manual, el script index.php recibe por GET los siguientes parámetros:
 
